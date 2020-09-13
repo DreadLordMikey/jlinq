@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "bin",
+    "sourceMap": true
+  },
+  "files": ["src/interfaces.ts", "src/Sequence.ts", "main.ts"],
+  "exclude": ["**/node_modules", "**/.*/"]
+}
