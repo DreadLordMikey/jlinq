@@ -41,3 +41,26 @@ describe("any() tests", () => {
     expect(() => new Sequence([1, 2, 3]).any((e) => e === 3)).toBeTruthy;
   });
 });
+
+describe("toArray() tests", () => {
+  var arr = [1, 2, 3, 4, 5];
+  var seq = new Sequence(arr);
+  var copy = seq.toArray();
+
+  it("returns non-null array instance", () => {
+    expect(copy).not.toBeNull;
+  });
+
+  it("gets a copy of the original array", () => {
+    expect(copy).not.toBe(arr);
+  });
+
+  it("gets array equal in size to original array", () => {
+    expect(copy.length).toEqual(arr.length);
+  });
+
+  it("gets values equal to original values", () => {
+    // toEqual walks all values recursively and compares them.
+    expect(copy).toEqual(arr);
+  });
+});

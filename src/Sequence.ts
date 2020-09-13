@@ -26,4 +26,12 @@ export class Sequence<T> {
       return this.data.length > 0;
     }
   }
+
+  /**
+   * Copies the elements of the List<T> to a new array.
+   * @returns An array containing copies of the elements of the Sequence<T>.
+   */
+  toArray(): Array<T> {
+    return [...this.data];
+  }
 }
