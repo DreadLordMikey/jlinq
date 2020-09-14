@@ -67,10 +67,6 @@ class Sequence {
     toArray() {
         return [...this.data];
     }
-    /**
-     * Returns a string that represents the current object.
-     * @returns A string that represents the current object.
-     */
     toString() {
         return JSON.stringify(this.data);
     }

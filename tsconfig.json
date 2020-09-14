@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
     "target": "es6",
+    "lib": ["ES2016", "DOM"],
     "module": "commonjs",
     "outDir": "bin",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "noEmitOnError": true,
+    "watch": true,
     "sourceMap": true
   },
-  "files": ["src/interfaces.ts", "src/Sequence.ts", "main.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["**/node_modules", "**/.*/"]
 }

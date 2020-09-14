@@ -42,6 +42,28 @@ describe("any() tests", () => {
   });
 });
 
+describe("count() tests", () => {
+  // Create an array containing 100 integers, with values from 0 to 99.
+  let start = 0;
+  let count = 100;
+  let seq = Sequence.range(start, count);
+
+  it("returns correct count when no predicate is provided", () => {
+    // If no predicate is provided, count() returns the total number of
+    // items in the sequence.
+    let c = seq.count();
+    expect(c).toEqual(count);
+  });
+
+  it("returns correct count when predicate is provided", () => {
+    // If a predicate is provided, count() returns the number of items in the
+    // sequence that satisfy the predicate condition. In the condition below,
+    // we expect the count to be one half of the total items.
+    let c = seq.count((n) => n % 2 === 0);
+    expect(c).toEqual(count / 2);
+  });
+});
+
 describe("toArray() tests", () => {
   var arr = [1, 2, 3, 4, 5];
   var seq = new Sequence(arr);
@@ -62,5 +84,30 @@ describe("toArray() tests", () => {
   it("gets values equal to original values", () => {
     // toEqual walks all values recursively and compares them.
     expect(copy).toEqual(arr);
+  });
+});
+
+describe("where() tests", () => {
+  let seq = Sequence.range(0, 5);
+
+  let evens = seq.toArray().filter((n) => n % 2 === 0);
+  let odds = seq.toArray().filter((n) => n % 2 !== 0);
+
+  it("throws if predicate is undefined", () => {
+    expect(() => seq.where(undefined)).toThrow();
+  });
+
+  it("throws if predicate is null", () => {
+    expect(() => seq.where(null)).toThrow();
+  });
+
+  it("selects all even values", () => {
+    let localEvens = seq.where((n) => n % 2 === 0).toArray();
+    expect(localEvens).toEqual(evens);
+  });
+
+  it("selects all odd values", () => {
+    let localOdds = seq.where((n) => n % 2 !== 0).toArray();
+    expect(localOdds).toEqual(odds);
   });
 });
