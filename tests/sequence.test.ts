@@ -1,4 +1,4 @@
-import { Sequence } from "../src/Sequence";
+import { from, Sequence } from "../src/Sequence";
 
 describe("Sequence construction", () => {
   it("throws if passed undefined", () => {
@@ -19,26 +19,22 @@ describe("Sequence construction", () => {
 
 describe("any() tests", () => {
   it("returns false if array is empty and no predicate is provided", () => {
-    var seq = new Sequence<number>([]);
-    var any = seq.any();
+    let any: boolean = from<number>([]).any();
     expect(any).toBeFalsy;
   });
   it("does not return true if array is empty and no predicate is provided", () => {
-    var seq = new Sequence<number>([]);
-    var any: boolean = seq.any();
+    let any: boolean = from<number>([]).any();
     expect(any).not.toBeTruthy;
   });
   it("returns true if array is not empty and no predicate is provided", () => {
-    var seq = new Sequence<number>([1, 2, 3, 4, 5]);
-    var any: boolean = seq.any();
+    let any: boolean = from([1, 2, 3, 4, 5]).any();
     expect(any).toBeTruthy;
   });
   it("returns false if not empty and no items match predicate", () => {
-    expect(() => new Sequence<number>([1, 2, 3]).any((e) => e === -1))
-      .toBeFalsy;
+    expect(() => from([1, 2, 3]).any((e) => e === -1)).toBeFalsy;
   });
   it("returns true if not empty and any item matches predicate", () => {
-    expect(() => new Sequence([1, 2, 3]).any((e) => e === 3)).toBeTruthy;
+    expect(() => from([1, 2, 3]).any((e) => e === 3)).toBeTruthy;
   });
 });
 
@@ -66,8 +62,7 @@ describe("count() tests", () => {
 
 describe("toArray() tests", () => {
   var arr = [1, 2, 3, 4, 5];
-  var seq = new Sequence(arr);
-  var copy = seq.toArray();
+  var copy = from(arr).toArray();
 
   it("returns non-null array instance", () => {
     expect(copy).not.toBeNull;

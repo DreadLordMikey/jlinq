@@ -32,3 +32,14 @@ However, the following are worth noting, in no particular order:
 The methods implemented in the Sequence&lt;T&gt; class are known as the *Standard Query Operators*. The documentation for their expected behavior was provided by Microsoft in May, 2006. The document containing these specifications is located in the docs folder of this repository, and serves as the primary requirements document for this project.
 
 The initial implementation does not provide support for asynchronous operations; future releases may do so.
+
+## Currently Supported Operators
+
+* `any() => boolean`: Determines if any elements exist in the sequence.
+* `any<T>(predicate: Predicate<T>) => boolean`: Determines if any elements exist in the sequence that satisfy the predicate condition.
+* `count() => number`: Gets the total number of items in the sequence.
+* `count(predicate: Predicate<T>) => number`: Gets the total number of items in the sequence that satisfy the povided predicate condition.
+* `range(start: number, count:number) => Sequence<T>` Generates a sequence of integral numbers within a specified range.
+* `where(predicate: Predicate<T>) => Sequence<T>` Filters a sequence of values based on a predicate.
+* `toArray() => Array<T>`: Creates an Array&lt;T&gt; from the sequence.
+* `toString() => string`: Gets the JSON string representation of the sequence.

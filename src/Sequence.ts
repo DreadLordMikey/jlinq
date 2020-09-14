@@ -1,5 +1,15 @@
 import { IPredicate, ISequence } from "./interfaces";
 
+/**
+ * Gets a Sequence&lt;T&gt; from an array.
+ * @param arr {Array<T>} The source array. An exception is thrown if arr is
+ * null or undefined.
+ * @returns {Sequence<T>} A Sequence&lt;T&gt; containing a copy of the source array.
+ */
+export function from<T>(arr: Array<T>): Sequence<T> {
+    return new Sequence<T>(arr);
+}
+
 export class Sequence<T> implements ISequence<T> {
   data: Array<T>;
 

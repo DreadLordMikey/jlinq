@@ -1,6 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sequence = void 0;
+exports.Sequence = exports.from = void 0;
+/**
+ * Gets a Sequence&lt;T&gt; from an array.
+ * @param arr {Array<T>} The source array. An exception is thrown if arr is
+ * null or undefined.
+ * @returns {Sequence<T>} A Sequence&lt;T&gt; containing a copy of the source array.
+ */
+function from(arr) {
+    return new Sequence(arr);
+}
+exports.from = from;
 class Sequence {
     constructor(data) {
         if (typeof data === "undefined" || data === null) {
