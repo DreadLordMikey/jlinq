@@ -18,6 +18,16 @@ class Sequence {
         }
         this.data = [...data];
     }
+    /**
+     * Determines whether all elements of a sequence satisfy a condition.
+     * @param predicate {IPredicate<T>} A function to test each element for a
+     * condition.
+     * @returns {boolean} true if every element in the sequence satisfies the
+     * predicate condition; otherwise, false.
+     */
+    all(predicate) {
+        return this.data.every(predicate);
+    }
     any(predicate) {
         if (predicate) {
             let index = this.data.findIndex(predicate);

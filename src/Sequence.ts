@@ -7,7 +7,7 @@ import { IPredicate, ISequence } from "./interfaces";
  * @returns {Sequence<T>} A Sequence&lt;T&gt; containing a copy of the source array.
  */
 export function from<T>(arr: Array<T>): Sequence<T> {
-    return new Sequence<T>(arr);
+  return new Sequence<T>(arr);
 }
 
 export class Sequence<T> implements ISequence<T> {
@@ -18,6 +18,17 @@ export class Sequence<T> implements ISequence<T> {
       throw "Object construction exception: The argument to the constructor of Sequence<T> cannot be null or undefined.";
     }
     this.data = [...data];
+  }
+
+  /**
+   * Determines whether all elements of a sequence satisfy a condition.
+   * @param predicate {IPredicate<T>} A function to test each element for a
+   * condition.
+   * @returns {boolean} true if every element in the sequence satisfies the
+   * predicate condition; otherwise, false.
+   */
+  all(predicate: IPredicate<T>): boolean {
+    return this.data.every(predicate);
   }
 
   /**

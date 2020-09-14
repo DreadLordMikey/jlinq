@@ -11,6 +11,8 @@ export interface IPredicate<T> {
 }
 
 export interface ISequence<T> {
+  all(predicate: IPredicate<T>): boolean;
+
   any(): boolean;
   any(predicate: IPredicate<T>): boolean;
 

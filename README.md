@@ -35,6 +35,7 @@ The initial implementation does not provide support for asynchronous operations;
 
 ## Currently Supported Operators
 
+* `all(predicate: Predicate<T>) : boolean`: Determines whether all elements of a sequence satisfy a condition.
 * `any() => boolean`: Determines if any elements exist in the sequence.
 * `any<T>(predicate: Predicate<T>) => boolean`: Determines if any elements exist in the sequence that satisfy the predicate condition.
 * `count() => number`: Gets the total number of items in the sequence.

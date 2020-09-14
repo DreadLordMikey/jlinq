@@ -17,6 +17,18 @@ describe("Sequence construction", () => {
   });
 });
 
+describe("all() tests", () => {
+    var arr: Array<string> = ["foo", "bar", "baz"];
+    it("returns false if no elements match the predicate condition", () => {
+        let result: boolean = (from(arr).all(e => e === "foobarbaz"));
+        expect(result).toBeFalsy;
+    });
+    it("returns true if all element satisfy the predicate condition", () => {
+        let result: boolean = (from(arr).all(e => e.startsWith("f") || e.startsWith("b")));
+        expect(result).toBeTruthy;
+    });
+});
+
 describe("any() tests", () => {
   it("returns false if array is empty and no predicate is provided", () => {
     let any: boolean = from<number>([]).any();

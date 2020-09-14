@@ -1,4 +1,13 @@
-import { Sequence } from "./src/Sequence";
+import { from, Sequence } from "./Sequence";
+
+let allDemo = () => {
+    let arr = ["foo", "bar", "baz"];
+    let data = from(arr);
+    console.log();
+    console.log("--- ALL ---")
+    console.log(data.all(e => e.startsWith("f") || e.startsWith("b"))); // displays true
+    console.log(data.all(e => e.includes("oop"))); // returns false;
+}
 
 let anyDemo = () => {
   var data = new Sequence([1, 2, 3, 4, 5]);
@@ -35,25 +44,11 @@ let rangeDemo = () => {
   // creating an array for testing purposes.
 
   let seq = Sequence.range(10, 10);
-
-  let seq2 = seq.where((e, i) => i > 0);
-
-  let evenCount = seq2.count((n) => n % 2 === 0);
-  let oddCount = seq2.count((n) => n % 2 !== 0);
-
-  let evens = seq2.toArray().filter((n) => n % 2 === 0);
-  let odds = seq2.toArray().filter((n) => n % 2 !== 0);
-
   console.log();
   console.log("--- RANGE ---");
   console.log(seq.toString());
-  console.log(seq2.toString());
-
-  console.log(evenCount);
-  console.log(evens);
-  console.log(oddCount);
-  console.log(odds);
 };
 
-//anyDemo();
+allDemo();
+anyDemo();
 rangeDemo();
