@@ -1,5 +1,6 @@
-import { IPredicate, ISequence } from "./interfaces";
+import { Predicate, ISequence, Selector } from "./interfaces";
 
+//#region from
 /**
  * Gets a Sequence&lt;T&gt; from an array.
  * @param arr {Array<T>} The source array. An exception is thrown if arr is
@@ -9,28 +10,34 @@ import { IPredicate, ISequence } from "./interfaces";
 export function from<T>(arr: Array<T>): Sequence<T> {
   return new Sequence<T>(arr);
 }
+//#endregion
 
 export class Sequence<T> implements ISequence<T> {
   data: Array<T>;
 
+  //#region Constructor
   constructor(data: Array<T>) {
     if (typeof data === "undefined" || data === null) {
       throw "Object construction exception: The argument to the constructor of Sequence<T> cannot be null or undefined.";
     }
     this.data = [...data];
   }
+  //#endregion
 
+  //#region all
   /**
    * Determines whether all elements of a sequence satisfy a condition.
-   * @param predicate {IPredicate<T>} A function to test each element for a
+   * @param predicate {Predicate<T>} A function to test each element for a
    * condition.
    * @returns {boolean} true if every element in the sequence satisfies the
    * predicate condition; otherwise, false.
    */
-  all(predicate: IPredicate<T>): boolean {
+  all(predicate: Predicate<T>): boolean {
     return this.data.every(predicate);
   }
+  //#endregion
 
+  //#region any
   /**
    * Determines if any elements exist in the sequence.
    * @returns true if any elements exist in the sequence; otherwise, false.
@@ -40,7 +47,7 @@ export class Sequence<T> implements ISequence<T> {
    * Determines if any elements exist in the sequence that satisfy a condition.
    * @param predicate A function to test each element for a condition.
    */
-  any(predicate?: IPredicate<T>): boolean;
+  any(predicate?: Predicate<T>): boolean;
   any(predicate?: any): boolean {
     if (predicate) {
       let index = this.data.findIndex(predicate);
@@ -49,7 +56,9 @@ export class Sequence<T> implements ISequence<T> {
       return this.data.length > 0;
     }
   }
+  //#endregion
 
+  //#region count
   /**
    * Returns the number of elements in a sequence.
    * @returns The total number of elements in the sequence.
@@ -58,11 +67,11 @@ export class Sequence<T> implements ISequence<T> {
   /**
    * Returns a number that represents how many elements in the sequence
    * satisfy a condition.
-   * @param predicate A function to test each element for a condition.
-   * @returns A number that represents how many elements in the sequence
+   * @param predicate {Predicate} A function to test each element for a condition.
+   * @returns {number} A number that represents how many elements in the sequence
    * satisfy the condition in the predicate function.
    */
-  count(predicate: IPredicate<T>): number;
+  count(predicate: Predicate<T>): number;
   count(predicate?: any) {
     if (predicate) {
       return this.data.filter(predicate).length;
@@ -70,7 +79,9 @@ export class Sequence<T> implements ISequence<T> {
       return this.data.length;
     }
   }
+  //#endregion
 
+  //#region range
   /**
    * Generates a sequence of integral numbers within a specified range.
    * @param start The value of the first integer in the sequence.
@@ -87,7 +98,24 @@ export class Sequence<T> implements ISequence<T> {
     }
     return new Sequence<number>(arr);
   }
+  //#endregion
 
+  //#region select
+  /**
+   * Projects each element of a sequence into a new form.
+   * @param selector {Selector} A transform function to apply to each source
+   * element; the second parameter of the function represents the index of the
+   * source element.
+   * @returns {Sequence<TReturn>} A new sequence containing the transformed
+   * data.
+   */
+  select<TReturn>(selector: Selector<T, TReturn>): Sequence<TReturn> {
+    let data: Array<TReturn> = this.data.map(selector);
+    return from(data);
+  }
+  //#endregion
+
+  //#region where
   /**
    * Filters a sequence of values based on a predicate.
    * @param predicate A function to test each source element for a condition.
@@ -100,7 +128,7 @@ export class Sequence<T> implements ISequence<T> {
    * @returns A Sequence<T> containing the rows that satisfy the predicate
    * condition.
    */
-  where(predicate: IPredicate<T>): Sequence<T> {
+  where(predicate: Predicate<T>): Sequence<T> {
     if (predicate === null || typeof predicate === "undefined") {
       throw 'Object null or undefined: predicate is required when calling "where".';
     }
@@ -108,7 +136,9 @@ export class Sequence<T> implements ISequence<T> {
     let items = this.data.filter(predicate);
     return new Sequence([...items]);
   }
+  //#endregion
 
+  //#region toArray
   /**
    * Copies the elements of the List<T> to a new array.
    * @returns An array containing copies of the elements of the Sequence<T>.
@@ -116,7 +146,9 @@ export class Sequence<T> implements ISequence<T> {
   toArray(): Array<T> {
     return [...this.data];
   }
+  //#endregion
 
+  //#region toString
   /**
    * Returns a string that represents the current object.
    * @returns A string that represents the current object.
@@ -124,4 +156,5 @@ export class Sequence<T> implements ISequence<T> {
   toString(): string {
     return JSON.stringify(this.data);
   }
+  //#endregion
 }

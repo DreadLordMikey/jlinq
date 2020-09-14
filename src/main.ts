@@ -1,13 +1,14 @@
 import { from, Sequence } from "./Sequence";
+import data, { dataRecord } from "./data";
 
 let allDemo = () => {
-    let arr = ["foo", "bar", "baz"];
-    let data = from(arr);
-    console.log();
-    console.log("--- ALL ---")
-    console.log(data.all(e => e.startsWith("f") || e.startsWith("b"))); // displays true
-    console.log(data.all(e => e.includes("oop"))); // returns false;
-}
+  let arr = ["foo", "bar", "baz"];
+  let data = from(arr);
+  console.log();
+  console.log("--- ALL ---");
+  console.log(data.all((e) => e.startsWith("f") || e.startsWith("b"))); // displays true
+  console.log(data.all((e) => e.includes("oop"))); // returns false;
+};
 
 let anyDemo = () => {
   var data = new Sequence([1, 2, 3, 4, 5]);
@@ -49,6 +50,16 @@ let rangeDemo = () => {
   console.log(seq.toString());
 };
 
-allDemo();
-anyDemo();
-rangeDemo();
+let selectDemo = () => {
+  let seq = from(data)
+    .where((d) => d.isActive)
+    .select((d) => ({ name: d.name, address: d.address }));
+  console.log();
+  console.log("--- SELECT ---");
+  console.log(seq.toString());
+};
+
+// allDemo();
+// anyDemo();
+// rangeDemo();
+selectDemo();

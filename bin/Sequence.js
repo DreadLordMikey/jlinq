@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Sequence = exports.from = void 0;
+//#region from
 /**
  * Gets a Sequence&lt;T&gt; from an array.
  * @param arr {Array<T>} The source array. An exception is thrown if arr is
@@ -11,16 +12,20 @@ function from(arr) {
     return new Sequence(arr);
 }
 exports.from = from;
+//#endregion
 class Sequence {
+    //#region Constructor
     constructor(data) {
         if (typeof data === "undefined" || data === null) {
             throw "Object construction exception: The argument to the constructor of Sequence<T> cannot be null or undefined.";
         }
         this.data = [...data];
     }
+    //#endregion
+    //#region all
     /**
      * Determines whether all elements of a sequence satisfy a condition.
-     * @param predicate {IPredicate<T>} A function to test each element for a
+     * @param predicate {Predicate<T>} A function to test each element for a
      * condition.
      * @returns {boolean} true if every element in the sequence satisfies the
      * predicate condition; otherwise, false.
@@ -45,6 +50,8 @@ class Sequence {
             return this.data.length;
         }
     }
+    //#endregion
+    //#region range
     /**
      * Generates a sequence of integral numbers within a specified range.
      * @param start The value of the first integer in the sequence.
@@ -61,6 +68,22 @@ class Sequence {
         }
         return new Sequence(arr);
     }
+    //#endregion
+    //#region select
+    /**
+     * Projects each element of a sequence into a new form.
+     * @param selector {Selector} A transform function to apply to each source
+     * element; the second parameter of the function represents the index of the
+     * source element.
+     * @returns {Sequence<TReturn>} A new sequence containing the transformed
+     * data.
+     */
+    select(selector) {
+        let data = this.data.map(selector);
+        return from(data);
+    }
+    //#endregion
+    //#region where
     /**
      * Filters a sequence of values based on a predicate.
      * @param predicate A function to test each source element for a condition.
@@ -80,6 +103,8 @@ class Sequence {
         let items = this.data.filter(predicate);
         return new Sequence([...items]);
     }
+    //#endregion
+    //#region toArray
     /**
      * Copies the elements of the List<T> to a new array.
      * @returns An array containing copies of the elements of the Sequence<T>.
@@ -87,6 +112,8 @@ class Sequence {
     toArray() {
         return [...this.data];
     }
+    //#endregion
+    //#region toString
     /**
      * Returns a string that represents the current object.
      * @returns A string that represents the current object.

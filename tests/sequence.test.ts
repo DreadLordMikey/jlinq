@@ -1,5 +1,7 @@
 import { from, Sequence } from "../src/Sequence";
+import data, { dataRecord } from "../src/data";
 
+//#region constructor
 describe("Sequence construction", () => {
   it("throws if passed undefined", () => {
     expect(() => new Sequence<number>(undefined)).toThrow();
@@ -16,19 +18,25 @@ describe("Sequence construction", () => {
     ).not.toBeNull;
   });
 });
+//#endregion
 
+//#region all
 describe("all() tests", () => {
-    var arr: Array<string> = ["foo", "bar", "baz"];
-    it("returns false if no elements match the predicate condition", () => {
-        let result: boolean = (from(arr).all(e => e === "foobarbaz"));
-        expect(result).toBeFalsy;
-    });
-    it("returns true if all element satisfy the predicate condition", () => {
-        let result: boolean = (from(arr).all(e => e.startsWith("f") || e.startsWith("b")));
-        expect(result).toBeTruthy;
-    });
+  var arr: Array<string> = ["foo", "bar", "baz"];
+  it("returns false if no elements match the predicate condition", () => {
+    let result: boolean = from(arr).all((e) => e === "foobarbaz");
+    expect(result).toBeFalsy;
+  });
+  it("returns true if all element satisfy the predicate condition", () => {
+    let result: boolean = from(arr).all(
+      (e) => e.startsWith("f") || e.startsWith("b")
+    );
+    expect(result).toBeTruthy;
+  });
 });
+//#endregion
 
+//#region any
 describe("any() tests", () => {
   it("returns false if array is empty and no predicate is provided", () => {
     let any: boolean = from<number>([]).any();
@@ -49,7 +57,9 @@ describe("any() tests", () => {
     expect(() => from([1, 2, 3]).any((e) => e === 3)).toBeTruthy;
   });
 });
+//#endregion
 
+//#region count
 describe("count() tests", () => {
   // Create an array containing 100 integers, with values from 0 to 99.
   let start = 0;
@@ -71,7 +81,69 @@ describe("count() tests", () => {
     expect(c).toEqual(count / 2);
   });
 });
+//#endregion
 
+//#region select
+describe("select() tests", () => {
+  it("returns non-empty set", () => {
+    let count = from(data)
+      .select((d) => {
+        d.address, d.email, d.name, d.phone;
+      })
+      .toArray().length;
+    expect(count).not.toEqual(0);
+  });
+
+  it("selects contact information", () => {
+    let arr = from(data)
+      .select((d) => ({
+        address: d.address,
+        email: d.email,
+        name: d.name,
+        phone: d.phone,
+      }))
+      .toArray();
+
+    let allMatch = true;
+    for (var i = 0; i < arr.length; i++) {
+      let e = arr[i];
+      let hasProps =
+        e.hasOwnProperty("address") &&
+        e.hasOwnProperty("email") &&
+        e.hasOwnProperty("name") &&
+        e.hasOwnProperty("phone");
+
+      if (!hasProps) {
+        allMatch = false;
+        break;
+      }
+    }
+
+    expect(allMatch).toBeTruthy;
+  });
+
+  it("selects and includes element index", () => {
+    let arr = from(data)
+      .select((d, i) => ({
+        index: i,
+        name: d.name,
+      }))
+      .toArray();
+
+    let allMatch = true;
+    for (var i = 0; i < arr.length; i++) {
+      let e: number = arr[i]["index"];
+      if (e != i) {
+        allMatch = false;
+        break;
+      }
+    }
+    expect(allMatch).toBeTruthy;
+  });
+});
+//#endregion
+
+//#region toArray
 describe("toArray() tests", () => {
   var arr = [1, 2, 3, 4, 5];
   var copy = from(arr).toArray();
@@ -93,7 +165,9 @@ describe("toArray() tests", () => {
     expect(copy).toEqual(arr);
   });
 });
+//#endregion
 
+//#region where
 describe("where() tests", () => {
   let seq = Sequence.range(0, 5);
 
@@ -118,3 +192,4 @@ describe("where() tests", () => {
     expect(localOdds).toEqual(odds);
   });
 });
+//#endregion
