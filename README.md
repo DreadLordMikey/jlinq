@@ -41,6 +41,8 @@ The initial implementation does not provide support for asynchronous operations;
 * `append<T>(source: T) => Sequence<T>`: Appends a value to the end of the sequence.
 * `count() => number`: Gets the total number of items in the sequence.
 * `count(predicate: Predicate<T>) => number`: Gets the total number of items in the sequence that satisfy the povided predicate condition.
+* `elementAt(index: number): T`: Returns the element at a specified index in a sequence.
+* `empty(): Sequence<T>`: Returns an empty Sequence&lt;T&gt; that has the specified type argument.
 * `range(start: number, count:number) => Sequence<T>` Generates a sequence of integral numbers within a specified range.
 * `select<TReturn>(selector: Selector<T, TReturn>): Sequence<TReturn>`: Projects each element of a sequence into a new form.
 * `where(predicate: Predicate<T>) => Sequence<T>` Filters a sequence of values based on a predicate.

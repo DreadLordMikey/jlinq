@@ -63,6 +63,19 @@ class Sequence {
         }
     }
     //#endregion
+    //#region elementAt
+    /**
+     * Returns the element at a specified index in a sequence.
+     * @param {number} index The zero-based index of the element to retrieve.
+     * @returns The element at the specfied index in the sequence.
+     */
+    elementAt(index) {
+        if (index < 0 || index >= this.data.length) {
+            throw "Index out of range exception: index is less than 0 or greater than or equal to the number of elements in the sequence.";
+        }
+        return this.data[index];
+    }
+    //#endregion
     //#region empty
     /**
      * Returns an empty Sequence&lt;T&gt; that has the specified type argument.

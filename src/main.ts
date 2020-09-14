@@ -58,6 +58,13 @@ let appendDemo = () => {
 };
 //#endregion
 
+//#region elementAt
+let elementAtDemo = () => {
+    let record = from(data).elementAt(3);
+    console.log(record);
+};
+//#endregion
+
 //#region empty
 let emptyDemo = () => {
   let ds = Sequence.empty<dataRecord>();
@@ -92,7 +99,8 @@ let selectDemo = () => {
 
 // allDemo();
 // anyDemo();
-appendDemo();
+//appendDemo();
+elementAtDemo();
 // emptyDemo();
 // rangeDemo();
 // selectDemo();

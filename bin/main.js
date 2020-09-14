@@ -41,6 +41,12 @@ let appendDemo = () => {
     var items = seq.toArray();
 };
 //#endregion
+//#region elementAt
+let elementAtDemo = () => {
+    let record = Sequence_1.from(data_1.default).elementAt(3);
+    console.log(record);
+};
+//#endregion
 //#region empty
 let emptyDemo = () => {
     let ds = Sequence_1.Sequence.empty();
@@ -71,7 +77,8 @@ let selectDemo = () => {
 //#endregion
 // allDemo();
 // anyDemo();
-appendDemo();
+//appendDemo();
+elementAtDemo();
 // emptyDemo();
 // rangeDemo();
 // selectDemo();

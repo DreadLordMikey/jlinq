@@ -110,6 +110,27 @@ describe("append() tests", () => {
 });
 //#endregion
 
+//#region elementAt
+describe("elementAt() tests", () => {
+    it("throws when index < 0", () => {
+        let seq = Sequence.range(0, 10);
+        expect(() => {
+            let item = seq.elementAt(-1);
+        }).toThrow();
+    });
+    it("throws when index >= sequence count", () => {
+        let seq = Sequence.range(0, 10);
+        expect(() => {
+            let item = seq.elementAt(100);
+        }).toThrow();
+    });
+    it("returns item when index is valid", () => {
+        let item = Sequence.range(0, 10).elementAt(4);
+        expect(item).toEqual(4);
+    });
+});
+//#endregion
+
 //#region count
 describe("count() tests", () => {
   // Create an array containing 100 integers, with values from 0 to 99.

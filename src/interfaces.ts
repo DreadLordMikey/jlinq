@@ -28,7 +28,10 @@ export type Predicate<T> = (source: T) => boolean;
  *
  * @returns {TReturn} A new object representing the transformed data.
  */
-export type Selector<TSource, TReturn> = (source: TSource, index: number) => TReturn;
+export type Selector<TSource, TReturn> = (
+  source: TSource,
+  index: number
+) => TReturn;
 //#endregion
 
 //#region ISequence
@@ -42,6 +45,8 @@ export interface ISequence<T> {
 
   count(): number;
   count(predicate: Predicate<T>): number;
+
+  elementAt(index: number): T;
 
   select<TReturn>(selector: Selector<T, TReturn>): any;
 
