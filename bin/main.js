@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Sequence_1 = require("./Sequence");
 const data_1 = __importDefault(require("./data"));
+//#region all
 let allDemo = () => {
     let arr = ["foo", "bar", "baz"];
     let data = Sequence_1.from(arr);
@@ -13,6 +14,8 @@ let allDemo = () => {
     console.log(data.all((e) => e.startsWith("f") || e.startsWith("b"))); // displays true
     console.log(data.all((e) => e.includes("oop"))); // returns false;
 };
+//#endregion
+//#region any
 let anyDemo = () => {
     var data = new Sequence_1.Sequence([1, 2, 3, 4, 5]);
     var emptyData = new Sequence_1.Sequence([]);
@@ -26,6 +29,15 @@ let anyDemo = () => {
     console.log(`Any equal to -1:     ${data.any((e) => e === -1)} (should be false)`);
     console.log(`Any equal to 3:      ${data.any((e) => e === 3)} (should be true)`);
 };
+//#endregion
+//#region empty
+let emptyDemo = () => {
+    let ds = Sequence_1.Sequence.empty();
+    let count = ds.count();
+    console.log(`empty set count: ${count}`);
+};
+//#endregion
+//#region range
 let rangeDemo = () => {
     // Range creates an array of numbers starting at the specified number,
     // and having the specified number of elements. It's useful for quickly
@@ -35,6 +47,8 @@ let rangeDemo = () => {
     console.log("--- RANGE ---");
     console.log(seq.toString());
 };
+//#endregion
+//#region select
 let selectDemo = () => {
     let seq = Sequence_1.from(data_1.default)
         .where((d) => d.isActive)
@@ -43,8 +57,10 @@ let selectDemo = () => {
     console.log("--- SELECT ---");
     console.log(seq.toString());
 };
+//#endregion
 // allDemo();
 // anyDemo();
+emptyDemo();
 // rangeDemo();
-selectDemo();
+//selectDemo();
 //# sourceMappingURL=main.js.map

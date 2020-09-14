@@ -12,6 +12,7 @@ export function from<T>(arr: Array<T>): Sequence<T> {
 }
 //#endregion
 
+/** @template T */
 export class Sequence<T> implements ISequence<T> {
   data: Array<T>;
 
@@ -80,6 +81,17 @@ export class Sequence<T> implements ISequence<T> {
     }
   }
   //#endregion
+
+  /**
+   * Returns an empty Sequence&lt;T&gt; that has the specified type argument.
+   * @param {TReturn} TReturn The type to assign to the type parameter of the
+   * returned generic Sequence&lt;T&gt;
+   * @returns {Sequence<T>} An empty Sequence&lt;&gt; whose type argument is {TReturn}.
+   * @template TReturn
+   */
+  static empty<TReturn>(): Sequence<TReturn> {
+    return from(new Array<TReturn>());
+  }
 
   //#region range
   /**

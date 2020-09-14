@@ -13,6 +13,7 @@ function from(arr) {
 }
 exports.from = from;
 //#endregion
+/** @template T */
 class Sequence {
     //#region Constructor
     constructor(data) {
@@ -51,6 +52,16 @@ class Sequence {
         }
     }
     //#endregion
+    /**
+     * Returns an empty Sequence&lt;T&gt; that has the specified type argument.
+     * @param {TReturn} TReturn The type to assign to the type parameter of the
+     * returned generic Sequence&lt;T&gt;
+     * @returns {Sequence<T>} An empty Sequence&lt;&gt; whose type argument is {TReturn}.
+     * @template TReturn
+     */
+    static empty() {
+        return from(new Array());
+    }
     //#region range
     /**
      * Generates a sequence of integral numbers within a specified range.

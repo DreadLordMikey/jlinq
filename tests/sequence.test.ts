@@ -83,6 +83,19 @@ describe("count() tests", () => {
 });
 //#endregion
 
+//#region empty
+describe("empty() tests", () => {
+    let emptySet = Sequence.empty<number>();
+    it("set is not null", () => {
+        expect(emptySet).not.toBeNull;
+    });
+    it("set contains no items", () => {
+        let count = emptySet.count();
+        expect(count).toEqual(0);
+    });
+});
+//#endregion
+
 //#region select
 describe("select() tests", () => {
   it("returns non-empty set", () => {
