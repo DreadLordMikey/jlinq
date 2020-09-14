@@ -9,9 +9,7 @@
  * The predicate returns true if the item should be included in the results;
  * otherwise, it returns false.
  */
-export interface Predicate<T> {
-  (source: T, index?: number): boolean;
-}
+export type Predicate<T> = (source: T) => boolean;
 //#endregion
 
 //#region Selector
@@ -30,9 +28,7 @@ export interface Predicate<T> {
  *
  * @returns {TReturn} A new object representing the transformed data.
  */
-export interface Selector<TSource, TReturn> {
-  (source: TSource, index?: number): any;
-}
+export type Selector<TSource, TReturn> = (source: TSource, index: number) => TReturn;
 //#endregion
 
 //#region ISequence
@@ -41,6 +37,8 @@ export interface ISequence<T> {
 
   any(): boolean;
   any(predicate: Predicate<T>): boolean;
+
+  append(element: T): ISequence<T>;
 
   count(): number;
   count(predicate: Predicate<T>): number;

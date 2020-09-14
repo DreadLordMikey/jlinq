@@ -59,6 +59,57 @@ describe("any() tests", () => {
 });
 //#endregion
 
+//#region append
+describe("append() tests", () => {
+  it("appends a new value to the end of the sequence.", () => {
+    let seq = Sequence.empty<string>();
+    let newSeq: string[];
+    profile("append adds new item to the end of the sequence", () => {
+      newSeq = seq.append("foo").toArray();
+    });
+
+    let item = newSeq[0];
+    expect(item).toEqual("foo");
+  });
+  it("preserves existing values", () => {
+    let seq = Sequence.empty<string>();
+
+    profile("append preserves existing values", () => {
+      seq = seq.append("foo").append("bar").append("baz");
+    });
+
+    let items = seq.toArray();
+    expect(items.length).toEqual(3);
+    expect(items[0]).toEqual("foo");
+    expect(items[1]).toEqual("bar");
+    expect(items[2]).toEqual("baz");
+  });
+  it("append performs in < .5s with large dataset", () => {
+    let seq = from(data);
+    let firstItem: dataRecord = data[0];
+
+    // Create a copy of the first item in the array.
+    let newItem: dataRecord = { ...firstItem };
+    newItem.friends = { ...firstItem.friends };
+    newItem.tags = { ...firstItem.tags };
+
+    newItem._id = "1234567890";
+
+    let elapsed = profile("append item to large sequence", () => {
+      seq = seq.append(newItem);
+    });
+
+    // We expect this method to return in less than .1 seconds, which is
+    // 100 ms.
+    // Note that occasionally, this test experiences spikes in execution
+    // time, for reasons that I can't explain. Simply re-running the
+    // test appears to resolve the issue. It may be due to memory
+    // fragmentation or other related issues.
+    expect(elapsed).toBeLessThan(0.5);
+  });
+});
+//#endregion
+
 //#region count
 describe("count() tests", () => {
   // Create an array containing 100 integers, with values from 0 to 99.
@@ -85,14 +136,14 @@ describe("count() tests", () => {
 
 //#region empty
 describe("empty() tests", () => {
-    let emptySet = Sequence.empty<number>();
-    it("set is not null", () => {
-        expect(emptySet).not.toBeNull;
-    });
-    it("set contains no items", () => {
-        let count = emptySet.count();
-        expect(count).toEqual(0);
-    });
+  let emptySet = Sequence.empty<number>();
+  it("set is not null", () => {
+    expect(emptySet).not.toBeNull;
+  });
+  it("set contains no items", () => {
+    let count = emptySet.count();
+    expect(count).toEqual(0);
+  });
 });
 //#endregion
 
@@ -205,4 +256,15 @@ describe("where() tests", () => {
     expect(localOdds).toEqual(odds);
   });
 });
+//#endregion
+
+//#region profile
+let profile = (description: string, f: Function) => {
+  let started = performance.now();
+  f();
+  let stopped = performance.now();
+  let elapsed = stopped - started;
+  console.log(`${elapsed.toFixed(4)}ms elapsed profiling ${description}.`);
+  return elapsed;
+};
 //#endregion

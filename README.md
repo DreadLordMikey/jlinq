@@ -38,6 +38,7 @@ The initial implementation does not provide support for asynchronous operations;
 * `all(predicate: Predicate<T>) : boolean`: Determines whether all elements of a sequence satisfy a condition.
 * `any() => boolean`: Determines if any elements exist in the sequence.
 * `any<T>(predicate: Predicate<T>) => boolean`: Determines if any elements exist in the sequence that satisfy the predicate condition.
+* `append<T>(source: T) => Sequence<T>`: Appends a value to the end of the sequence.
 * `count() => number`: Gets the total number of items in the sequence.
 * `count(predicate: Predicate<T>) => number`: Gets the total number of items in the sequence that satisfy the povided predicate condition.
 * `range(start: number, count:number) => Sequence<T>` Generates a sequence of integral numbers within a specified range.

@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Sequence_1 = require("./Sequence");
 const data_1 = __importDefault(require("./data"));
+const { performance } = require("perf_hooks");
 //#region all
 let allDemo = () => {
     let arr = ["foo", "bar", "baz"];
@@ -28,6 +29,16 @@ let anyDemo = () => {
     console.log(`Any elements at all: ${data.any()} (should be true)`);
     console.log(`Any equal to -1:     ${data.any((e) => e === -1)} (should be false)`);
     console.log(`Any equal to 3:      ${data.any((e) => e === 3)} (should be true)`);
+};
+//#endregion
+//#region append
+let appendDemo = () => {
+    // Append is implemented per the LINQ specification. Because it returns a
+    // new sequence containing the appended items, you can chain calls to it to
+    // add more items.
+    let seq = Sequence_1.Sequence.empty().append("foo").append("bar").append("baz");
+    console.log(seq.toString());
+    var items = seq.toArray();
 };
 //#endregion
 //#region empty
@@ -60,7 +71,8 @@ let selectDemo = () => {
 //#endregion
 // allDemo();
 // anyDemo();
-emptyDemo();
+appendDemo();
+// emptyDemo();
 // rangeDemo();
-//selectDemo();
+// selectDemo();
 //# sourceMappingURL=main.js.map

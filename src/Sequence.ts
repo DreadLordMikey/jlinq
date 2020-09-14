@@ -1,5 +1,9 @@
 import { Predicate, ISequence, Selector } from "./interfaces";
 
+type SequenceConstructionOptions = {
+  directStore: boolean;
+};
+
 //#region from
 /**
  * Gets a Sequence&lt;T&gt; from an array.
@@ -17,11 +21,14 @@ export class Sequence<T> implements ISequence<T> {
   data: Array<T>;
 
   //#region Constructor
-  constructor(data: Array<T>) {
+  constructor(data: Array<T>, options?: SequenceConstructionOptions) {
     if (typeof data === "undefined" || data === null) {
       throw "Object construction exception: The argument to the constructor of Sequence<T> cannot be null or undefined.";
     }
-    this.data = [...data];
+
+    options = options ?? this.getDefaultConstructionOptions();
+
+    this.data = options?.directStore ? data : [...data];
   }
   //#endregion
 
@@ -59,6 +66,17 @@ export class Sequence<T> implements ISequence<T> {
   }
   //#endregion
 
+  //#region append
+  /**
+   * Appends a value to the end of the sequence.
+   * @param element The value to append to the sequence.
+   * @returns {Sequence<T>} A new sequence that ends with element.
+   */
+  append(element: T): Sequence<T> {
+    return new Sequence<T>(this.data.concat([element]), { directStore: true });
+  }
+  //#endregion
+
   //#region count
   /**
    * Returns the number of elements in a sequence.
@@ -82,6 +100,7 @@ export class Sequence<T> implements ISequence<T> {
   }
   //#endregion
 
+  //#region empty
   /**
    * Returns an empty Sequence&lt;T&gt; that has the specified type argument.
    * @param {TReturn} TReturn The type to assign to the type parameter of the
@@ -92,6 +111,7 @@ export class Sequence<T> implements ISequence<T> {
   static empty<TReturn>(): Sequence<TReturn> {
     return from(new Array<TReturn>());
   }
+  //#endregion
 
   //#region range
   /**
@@ -169,4 +189,10 @@ export class Sequence<T> implements ISequence<T> {
     return JSON.stringify(this.data);
   }
   //#endregion
+
+  private getDefaultConstructionOptions() {
+    return {
+      directStore: false,
+    };
+  }
 }

@@ -16,11 +16,12 @@ exports.from = from;
 /** @template T */
 class Sequence {
     //#region Constructor
-    constructor(data) {
+    constructor(data, options) {
         if (typeof data === "undefined" || data === null) {
             throw "Object construction exception: The argument to the constructor of Sequence<T> cannot be null or undefined.";
         }
-        this.data = [...data];
+        options = options !== null && options !== void 0 ? options : this.getDefaultConstructionOptions();
+        this.data = (options === null || options === void 0 ? void 0 : options.directStore) ? data : [...data];
     }
     //#endregion
     //#region all
@@ -43,6 +44,16 @@ class Sequence {
             return this.data.length > 0;
         }
     }
+    //#endregion
+    //#region append
+    /**
+     * Appends a value to the end of the sequence.
+     * @param element The value to append to the sequence.
+     * @returns {Sequence<T>} A new sequence that ends with element.
+     */
+    append(element) {
+        return new Sequence(this.data.concat([element]), { directStore: true });
+    }
     count(predicate) {
         if (predicate) {
             return this.data.filter(predicate).length;
@@ -52,6 +63,7 @@ class Sequence {
         }
     }
     //#endregion
+    //#region empty
     /**
      * Returns an empty Sequence&lt;T&gt; that has the specified type argument.
      * @param {TReturn} TReturn The type to assign to the type parameter of the
@@ -62,6 +74,7 @@ class Sequence {
     static empty() {
         return from(new Array());
     }
+    //#endregion
     //#region range
     /**
      * Generates a sequence of integral numbers within a specified range.
@@ -131,6 +144,12 @@ class Sequence {
      */
     toString() {
         return JSON.stringify(this.data);
+    }
+    //#endregion
+    getDefaultConstructionOptions() {
+        return {
+            directStore: false,
+        };
     }
 }
 exports.Sequence = Sequence;

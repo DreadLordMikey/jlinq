@@ -1,6 +1,8 @@
 import { from, Sequence } from "./Sequence";
 import data, { dataRecord } from "./data";
 
+const { performance } = require("perf_hooks");
+
 //#region all
 let allDemo = () => {
   let arr = ["foo", "bar", "baz"];
@@ -43,11 +45,24 @@ let anyDemo = () => {
 };
 //#endregion
 
+//#region append
+let appendDemo = () => {
+  // Append is implemented per the LINQ specification. Because it returns a
+  // new sequence containing the appended items, you can chain calls to it to
+  // add more items.
+
+  let seq = Sequence.empty<string>().append("foo").append("bar").append("baz");
+
+  console.log(seq.toString());
+  var items = seq.toArray();
+};
+//#endregion
+
 //#region empty
 let emptyDemo = () => {
-    let ds = Sequence.empty<dataRecord>();
-    let count = ds.count();
-    console.log(`empty set count: ${count}`);
+  let ds = Sequence.empty<dataRecord>();
+  let count = ds.count();
+  console.log(`empty set count: ${count}`);
 };
 //#endregion
 
@@ -77,6 +92,7 @@ let selectDemo = () => {
 
 // allDemo();
 // anyDemo();
-emptyDemo();
+appendDemo();
+// emptyDemo();
 // rangeDemo();
-//selectDemo();
+// selectDemo();
