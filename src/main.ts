@@ -58,13 +58,40 @@ let appendDemo = () => {
 };
 //#endregion
 
+//#region concat
+let concatDemo = () => {
+  let first: Sequence<string> = from(["Orange", "Banana", "Apple"]);
+  let second: Sequence<string> = from(["Carrot", "Corn", "Radish"]);
+  let expected: Sequence<string> = from(["Orange", "Banana", "Apple", "Carrot", "Corn", "Radish"]);
+
+  // concat creates a new sequence, and copies the elements from first into it,
+  // then appends the elements from second into it. The resulting sequence is
+  // then returned. Neither first nor second is modified.
+  //
+  // The resulting sequence looks like expected, defined above.
+  let actual = first.concat(second);
+
+  if (actual.count() !== expected.count()) {
+    console.log("Lengths do not match");
+  }
+  else {
+
+    for (let i = 0; i < actual.count(); i++) {
+      if (actual.elementAt(i) !== expected.elementAt(i)) {
+        console.log("Elements do not match");
+        break;
+      }
+    }
+  }
+};
+//#endregion
+
 //#region elementAt
 let elementAtDemo = () => {
     let record = from(data).elementAt(3);
     console.log(record);
 };
 //#endregion
-
 
 //#region elementAtOrDefault
 let elementAtOrDefaultDemo = () => {
@@ -76,7 +103,6 @@ let elementAtOrDefaultDemo = () => {
   console.log(`elementAtOrDefault returns ${record} for index 2`);
 };
 //#endregion
-
 
 //#region empty
 let emptyDemo = () => {
@@ -113,8 +139,9 @@ let selectDemo = () => {
 // allDemo();
 // anyDemo();
 //appendDemo();
+concatDemo();
 //elementAtDemo();
-elementAtOrDefaultDemo();
+//elementAtOrDefaultDemo();
 // emptyDemo();
 // rangeDemo();
 // selectDemo();

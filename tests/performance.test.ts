@@ -54,6 +54,10 @@ item._id = "1234567890";
 
 profile("append", .5, () => { tempData.append(item) });
 
+// The product of this concatenation is an array containing 20,000 rows.
+// The concatenation should never take more than 1ms.
+profile("concat", 1, () => Sequence.range(0, 10000).concat(Sequence.range(10000, 10000)));
+
 profile("count without a predicate", .1, () => sourceData.count());
 profile("count with a predicate", .5, () => sourceData.count(e => e.isActive));
 

@@ -98,6 +98,27 @@ describe("append() tests", () => {
 });
 //#endregion
 
+//#region concat
+describe("concat() tests", () => {
+  let first: Sequence<string>;
+  let second: Sequence<string>;
+  let expected: Sequence<string>;
+  beforeEach(() => {
+    first = from(["Orange", "Banana", "Apple"]);
+    second = from(["Carrot", "Corn", "Radish"]);
+    expected = from(["Orange", "Banana", "Apple", "Carrot", "Corn", "Radish"]);
+  });
+  it("returns sequence of correct length", () => {
+    let newSet = first.concat(second);
+    expect(newSet.count()).toEqual(6);
+  });
+  it("returns elements in the correct order", () => {
+    let newSet = first.concat(second);
+    expect(newSet).toEqual(expected);
+  });
+});
+//#endregion
+
 //#region count
 describe("count() tests", () => {
   // Create an array containing 100 integers, with values from 0 to 99.

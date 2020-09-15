@@ -43,6 +43,9 @@ export interface ISequence<T> {
 
   append(element: T): ISequence<T>;
 
+  concat(items: T[]): ISequence<T>;
+  concat(items: ISequence<T>): ISequence<T>;
+
   count(): number;
   count(predicate: Predicate<T>): number;
 

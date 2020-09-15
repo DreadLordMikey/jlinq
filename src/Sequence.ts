@@ -77,6 +77,31 @@ export class Sequence<T> implements ISequence<T> {
   }
   //#endregion
 
+  //#region concat
+  /**
+   * Concatenates two sequences.
+   * @param {T[]} items The sequence to concatenate to this sequence.
+   * @returns {Sequence} A Sequence&lt;T&gt; An that contains the concatenated
+   * elements of the two input sequences.
+   */
+  concat(items: T[]): Sequence<T>;
+  /**
+   * Concatenates two sequences.
+   * @param {Sequence<T>} items The sequence to concatenate to this sequence.
+   * @returns {Sequence} A Sequence&lt;T&gt; An that contains the concatenated
+   * elements of the two input sequences.
+   */
+  concat(items: ISequence<T>): Sequence<T>;
+  concat(items: any): Sequence<T> {
+    if (Array.isArray(items)) {
+      return new Sequence<T>(this.data.concat(items), { directStore: true } );
+    }
+    else {
+      return new Sequence<T>(this.data.concat(items.toArray()), { directStore: true });
+    }
+  }
+  //#endregion
+
   //#region count
   /**
    * Returns the number of elements in a sequence.
@@ -137,10 +162,14 @@ export class Sequence<T> implements ISequence<T> {
       // 0; for booleans it is false.
       var t = typeof this.data[0];
       switch (t) {
-        case "bigint": return <T><unknown>0;
-        case "boolean": return <T><unknown>false;
-        case "number": return <T><unknown>0;
-        default: return <T><unknown>null;
+        case "bigint":
+          return <T>(<unknown>0);
+        case "boolean":
+          return <T>(<unknown>false);
+        case "number":
+          return <T>(<unknown>0);
+        default:
+          return <T>(<unknown>null);
       }
     }
     return this.data[index];
@@ -233,7 +262,7 @@ export class Sequence<T> implements ISequence<T> {
    * @returns A string that represents the current object.
    */
   toString(): string {
-    return JSON.stringify(this.data);
+    return JSON.stringify(this.data, null, 2);
   }
   //#endregion
 
