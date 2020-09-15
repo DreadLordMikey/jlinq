@@ -39,6 +39,7 @@ The initial implementation does not provide support for asynchronous operations;
 - `any() => boolean`: Determines if any elements exist in the sequence.
 - `any<T>(predicate: Predicate<T>) => boolean`: Determines if any elements exist in the sequence that satisfy the predicate condition.
 - `append<T>(source: T) => Sequence<T>`: Appends a value to the end of the sequence.
+- `concat(items: T[] | Sequence<T>) => Sequence<T>`: Concatenates two sequences.
 - `count() => number`: Gets the total number of items in the sequence.
 - `count(predicate: Predicate<T>) => number`: Gets the total number of items in the sequence that satisfy the povided predicate condition.
 - `elementAt(index: number): T`: Returns the element at a specified index in a sequence.
