@@ -94,7 +94,7 @@ export class Sequence<T> implements ISequence<T> {
   concat(items: ISequence<T>): Sequence<T>;
   concat(items: any): Sequence<T> {
     if (Array.isArray(items)) {
-      return new Sequence<T>(this.data.concat(items), { directStore: true } );
+      return new Sequence<T>(this.data.concat(items), { directStore: true });
     } else {
       return new Sequence<T>(this.data.concat(items.toArray()), {
         directStore: true,
@@ -244,6 +244,25 @@ export class Sequence<T> implements ISequence<T> {
 
     let items = this.data.filter(predicate);
     return new Sequence([...items]);
+  }
+  //#endregion
+
+  //#region skip
+  skip(count: number): Sequence<T> {
+    // If count is less than or equal to zero, return all elements.
+    if (count <= 0) {
+      return new Sequence<T>(this.data, { directStore: true });
+    }
+
+    // If count is greater than the number of items in the array,
+    // return an empty sequence.
+    if (count > this.data.length) {
+      return new Sequence<T>([], { directStore: true });
+    }
+
+    // Otherwise, get all items starting at the index specified by count to the
+    // end of the array.
+    return new Sequence<T>(this.data.splice(count), { directStore: true });
   }
   //#endregion
 

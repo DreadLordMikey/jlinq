@@ -75,6 +75,15 @@ describe("select", () =>
     phone: d.phone,
   }))));
 
+describe("skip", () => {
+  var seq = Sequence.range(0, 10000);
+  profile(() => seq.skip(100), "with index within array bounds");
+  profile(() => seq.skip(0), "with index === 0");
+  profile(() => seq.skip(-1), "with index === -1");
+  profile(() => seq.skip(seq.count()), "with index === array.length");
+  profile(() => seq.skip(50000), "with index > array.length");
+});
+
 describe("take", () => {
   profile(() => Sequence.range(0, 1000).take(-1), "where count < 0");
   profile(

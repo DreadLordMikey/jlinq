@@ -287,6 +287,38 @@ describe("select() tests", () => {
 });
 //#endregion
 
+//#region skip
+describe("skip() tests", () => {
+  it("returns all items if count < array size", () => {
+    let expected = 100;
+    let received = Sequence.range(0, 100).skip(-1).count();
+    expect(received).toEqual(expected);
+  });
+  it("returns all items if count === 0", () => {
+    let expected = 100;
+    let received = Sequence.range(0, 100).skip(0).count();
+    expect(received).toEqual(expected);
+  });
+  it("returns empty if count > array size", () => {
+    let expected = 0;
+    let received = Sequence.range(0, 100).skip(120).count();
+    expect(received).toEqual(expected);
+  });
+  it("returns set if count === array size", () => {
+    let expected = 0;
+    let received = Sequence.range(0, 100).skip(100).count();
+    expect(received).toEqual(expected);
+  });
+  it("returns set if count < array size", () => {
+    let data = Sequence.range(0, 100);
+    let subset = data.skip(50);
+    let expected = 50;
+    let received = subset.count();
+    expect(received).toEqual(expected);
+  });
+});
+//#endregion
+
 //#region take
 describe("take() tests", () => {
   it("returns empty set when count is < 0", () => {
@@ -312,7 +344,7 @@ describe("take() tests", () => {
 //#region takeWhile
 let takeWhile = () => {
   let data = Sequence.range(-50, 100);
-  let subset = data.takeWhile(n => n < 50);
+  let subset = data.takeWhile((n) => n < 50);
   let expected = 50;
   let actual = subset.count();
   console.log(expected === actual);
