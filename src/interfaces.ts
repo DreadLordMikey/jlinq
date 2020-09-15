@@ -54,6 +54,8 @@ export interface ISequence<T> {
 
   select<TReturn>(selector: Selector<T, TReturn>): any;
 
+  skip(count: number): ISequence<T>;
+
   take(count: number): ISequence<T>;
   takeWhile(predicate: Predicate<T>): ISequence<T>;
 
