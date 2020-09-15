@@ -76,6 +76,30 @@ class Sequence {
         return this.data[index];
     }
     //#endregion
+    //#region elementAtOrDefault
+    elementAtOrDefault(index) {
+        if (index < 0 || index >= this.data.length) {
+            // This is the tricky part. Generics are not available at runtime. So how
+            // do we get a default value for the provided generic type?
+            //
+            // Since the index is out of range, we can assume there are elements in
+            // the array. We retrieve the first one and inspect its type. From that,
+            // we can infer the types of all elements in the array, and return a
+            // suitable default value.
+            //
+            // For all reference types, the default value is null. For numerics, it is
+            // 0; for booleans it is false.
+            var t = typeof this.data[0];
+            switch (t) {
+                case "bigint": return 0;
+                case "boolean": return false;
+                case "number": return 0;
+                default: return null;
+            }
+        }
+        return this.data[index];
+    }
+    //#endregion
     //#region empty
     /**
      * Returns an empty Sequence&lt;T&gt; that has the specified type argument.

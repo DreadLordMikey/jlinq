@@ -15,5 +15,8 @@
   "scripts": {
     "test": "jest",
     "start": "npx ts-node src/main.ts"
+  },
+  "jest": {
+    "verbose": true
   }
 }

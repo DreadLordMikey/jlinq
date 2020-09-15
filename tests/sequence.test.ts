@@ -23,6 +23,7 @@ describe("Sequence construction", () => {
 //#region all
 describe("all() tests", () => {
   var arr: Array<string> = ["foo", "bar", "baz"];
+
   it("returns false if no elements match the predicate condition", () => {
     let result: boolean = from(arr).all((e) => e === "foobarbaz");
     expect(result).toBeFalsy;
@@ -64,9 +65,8 @@ describe("append() tests", () => {
   it("appends a new value to the end of the sequence.", () => {
     let seq = Sequence.empty<string>();
     let newSeq: string[];
-    profile("append adds new item to the end of the sequence", () => {
-      newSeq = seq.append("foo").toArray();
-    });
+
+    newSeq = seq.append("foo").toArray();
 
     let item = newSeq[0];
     expect(item).toEqual("foo");
@@ -74,9 +74,7 @@ describe("append() tests", () => {
   it("preserves existing values", () => {
     let seq = Sequence.empty<string>();
 
-    profile("append preserves existing values", () => {
-      seq = seq.append("foo").append("bar").append("baz");
-    });
+    seq = seq.append("foo").append("bar").append("baz");
 
     let items = seq.toArray();
     expect(items.length).toEqual(3);
@@ -95,39 +93,8 @@ describe("append() tests", () => {
 
     newItem._id = "1234567890";
 
-    let elapsed = profile("append item to large sequence", () => {
-      seq = seq.append(newItem);
-    });
-
-    // We expect this method to return in less than .1 seconds, which is
-    // 100 ms.
-    // Note that occasionally, this test experiences spikes in execution
-    // time, for reasons that I can't explain. Simply re-running the
-    // test appears to resolve the issue. It may be due to memory
-    // fragmentation or other related issues.
-    expect(elapsed).toBeLessThan(0.5);
+    seq = seq.append(newItem);
   });
-});
-//#endregion
-
-//#region elementAt
-describe("elementAt() tests", () => {
-    it("throws when index < 0", () => {
-        let seq = Sequence.range(0, 10);
-        expect(() => {
-            let item = seq.elementAt(-1);
-        }).toThrow();
-    });
-    it("throws when index >= sequence count", () => {
-        let seq = Sequence.range(0, 10);
-        expect(() => {
-            let item = seq.elementAt(100);
-        }).toThrow();
-    });
-    it("returns item when index is valid", () => {
-        let item = Sequence.range(0, 10).elementAt(4);
-        expect(item).toEqual(4);
-    });
 });
 //#endregion
 
@@ -151,6 +118,77 @@ describe("count() tests", () => {
     // we expect the count to be one half of the total items.
     let c = seq.count((n) => n % 2 === 0);
     expect(c).toEqual(count / 2);
+  });
+});
+//#endregion
+
+//#region elementAt
+describe("elementAt() tests", () => {
+  it("throws when index < 0", () => {
+    let seq = Sequence.range(0, 10);
+    expect(() => {
+      let item = seq.elementAt(-1);
+    }).toThrow();
+  });
+  it("throws when index >= sequence count", () => {
+    let seq = Sequence.range(0, 10);
+    expect(() => {
+      let item = seq.elementAt(100);
+    }).toThrow();
+  });
+  it("returns item when index is valid", () => {
+    let item = Sequence.range(0, 10).elementAt(4);
+    expect(item).toEqual(4);
+  });
+});
+//#endregion
+
+//#region elementAtOrDefault
+describe("elementAtOrDefault() tests", () => {
+  describe("numeric values", () => {
+    let seq = Sequence.range(10, 10);
+    it("returns default value when index is out of range", () => {
+      let item = seq.elementAtOrDefault(-1);
+      expect(item).toEqual(0);
+    });
+    it("returns item when index is in range", () => {
+      let item = seq.elementAtOrDefault(1);
+      expect(item).toEqual(11);
+    });
+  });
+  describe("string values", () => {
+    let seq = from(["foo", "bar", "baz"]);
+    it("returns default value when index is out of range", () => {
+      let item = seq.elementAtOrDefault(-1);
+      expect(item).toBeNull;
+    });
+    it("returns item when index is in range", () => {
+      let item = seq.elementAtOrDefault(1);
+      expect(item).toEqual("bar");
+    });
+  });
+  describe("boolean values", () => {
+    let seq = from([false, true, true, false, true, false]);
+    it("returns default value when index is out of range", () => {
+      let item = seq.elementAtOrDefault(-1);
+      expect(item).toEqual(false);
+    });
+    it("returns item when index is in range", () => {
+      let item = seq.elementAtOrDefault(1);
+      expect(item).toEqual(true);
+    });
+  });
+  describe("complex values", () => {
+    let seq = from(data);
+    it("returns default value when index is out of range", () => {
+      let item = seq.elementAtOrDefault(-1);
+      expect(item).toEqual(null);
+    });
+    it("returns item when index is in range", () => {
+      let item = seq.elementAtOrDefault(1);
+      let firstItem = data[1];
+      expect(item).toEqual(firstItem);
+    });
   });
 });
 //#endregion
@@ -277,15 +315,4 @@ describe("where() tests", () => {
     expect(localOdds).toEqual(odds);
   });
 });
-//#endregion
-
-//#region profile
-let profile = (description: string, f: Function) => {
-  let started = performance.now();
-  f();
-  let stopped = performance.now();
-  let elapsed = stopped - started;
-  console.log(`${elapsed.toFixed(4)}ms elapsed profiling ${description}.`);
-  return elapsed;
-};
 //#endregion

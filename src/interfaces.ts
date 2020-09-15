@@ -47,6 +47,7 @@ export interface ISequence<T> {
   count(predicate: Predicate<T>): number;
 
   elementAt(index: number): T;
+  elementAtOrDefault(index: number): T;
 
   select<TReturn>(selector: Selector<T, TReturn>): any;
 

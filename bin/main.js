@@ -47,6 +47,15 @@ let elementAtDemo = () => {
     console.log(record);
 };
 //#endregion
+//#region elementAtOrDefault
+let elementAtOrDefaultDemo = () => {
+    let seq = Sequence_1.from(["foo", "bar", "baz"]);
+    let record = seq.elementAtOrDefault(750);
+    console.log(`elementAtOrDefault returns ${record} for index 750`);
+    record = seq.elementAtOrDefault(1);
+    console.log(`elementAtOrDefault returns ${record} for index 2`);
+};
+//#endregion
 //#region empty
 let emptyDemo = () => {
     let ds = Sequence_1.Sequence.empty();
@@ -78,7 +87,8 @@ let selectDemo = () => {
 // allDemo();
 // anyDemo();
 //appendDemo();
-elementAtDemo();
+//elementAtDemo();
+elementAtOrDefaultDemo();
 // emptyDemo();
 // rangeDemo();
 // selectDemo();
