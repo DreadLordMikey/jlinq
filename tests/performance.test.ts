@@ -84,6 +84,10 @@ describe("take", () => {
   profile(() => Sequence.range(0, 1000).take(50), "where count is valid");
 });
 
+describe("takeWhile", () => {
+  profile(() => Sequence.range(-50, 100).takeWhile(n => n < 0));
+});
+
 describe("toArray", () => {
   profile(() => sourceData.toArray());
 });

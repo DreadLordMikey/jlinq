@@ -9,7 +9,7 @@
  * The predicate returns true if the item should be included in the results;
  * otherwise, it returns false.
  */
-export type Predicate<T> = (source: T) => boolean;
+export type Predicate<T> = (source: T, index?: number) => boolean;
 //#endregion
 
 //#region Selector
@@ -55,6 +55,7 @@ export interface ISequence<T> {
   select<TReturn>(selector: Selector<T, TReturn>): any;
 
   take(count: number): ISequence<T>;
+  takeWhile(predicate: Predicate<T>): ISequence<T>;
 
   where(predicate: Predicate<T>): ISequence<T>;
 }

@@ -309,6 +309,16 @@ describe("take() tests", () => {
 });
 //#endregion
 
+//#region takeWhile
+let takeWhile = () => {
+  let data = Sequence.range(-50, 100);
+  let subset = data.takeWhile(n => n < 50);
+  let expected = 50;
+  let actual = subset.count();
+  console.log(expected === actual);
+};
+//#endregion
+
 //#region toArray
 describe("toArray() tests", () => {
   var arr = [1, 2, 3, 4, 5];
