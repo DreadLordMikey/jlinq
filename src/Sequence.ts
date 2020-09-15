@@ -275,6 +275,23 @@ export class Sequence<T> implements ISequence<T> {
   }
   //#endregion
 
+  //#region takeWhile
+  /**
+   * Returns elements from a sequence as long as a specified condition is true,
+   * and then skips the remaining elements.
+   * @param {Predicate} predicate A function to test each element for a
+   * condition.
+   * @returns {Sequence} A Sequence&lt;T&gt; that contains the elements from
+   * this sequence that occur before the element at which the test no longer
+   * passes.
+   */
+  takeWhile(predicate: Predicate<T>): Sequence<T> {
+    // Get the index of the first element to return false;
+    let index = this.data.findIndex((e, i) => !predicate(e, i));
+    return this.take(index);
+  }
+  //#endregion
+
   //#region toArray
   /**
    * Copies the elements of the List<T> to a new array.
