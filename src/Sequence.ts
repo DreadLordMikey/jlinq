@@ -115,6 +115,14 @@ export class Sequence<T> implements ISequence<T> {
   //#endregion
 
   //#region elementAtOrDefault
+  /**
+   * Returns the element at a specified index in a sequence or a default value
+   * if the index is out of range.
+   * @param {number} index The zero-based index of the element to retrieve.
+   * @returns {T} default {T} if the index is outside the bounds of the source
+   * sequence; otherwise, the element at the specified position in the source
+   * sequence.
+   */
   elementAtOrDefault(index: number): T {
     if (index < 0 || index >= this.data.length) {
       // This is the tricky part. Generics are not available at runtime. So how
