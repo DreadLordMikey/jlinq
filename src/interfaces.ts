@@ -54,6 +54,8 @@ export interface ISequence<T> {
 
   select<TReturn>(selector: Selector<T, TReturn>): any;
 
+  take(count: number): ISequence<T>;
+
   where(predicate: Predicate<T>): ISequence<T>;
 }
 //#endregion

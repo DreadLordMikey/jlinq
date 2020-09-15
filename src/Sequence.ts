@@ -95,9 +95,10 @@ export class Sequence<T> implements ISequence<T> {
   concat(items: any): Sequence<T> {
     if (Array.isArray(items)) {
       return new Sequence<T>(this.data.concat(items), { directStore: true } );
-    }
-    else {
-      return new Sequence<T>(this.data.concat(items.toArray()), { directStore: true });
+    } else {
+      return new Sequence<T>(this.data.concat(items.toArray()), {
+        directStore: true,
+      });
     }
   }
   //#endregion
@@ -243,6 +244,34 @@ export class Sequence<T> implements ISequence<T> {
 
     let items = this.data.filter(predicate);
     return new Sequence([...items]);
+  }
+  //#endregion
+
+  //#region take
+  /**
+   * Returns a specified number of contiguous elements from the start of a sequence.
+   * @param {number} count The number of elements to return.
+   * @returns {Sequence} A Sequence that contains the specified number of elements
+   * from the start of this sequence.
+   * @description If count is less than zero, take returns an empty sequence. If count
+   * is greater than the number of items in the sequence, take returns all items in
+   * the sequence. Otherwise, take returns the specfied number of items from the
+   * sequence, starting at index 0.
+   */
+  take(count: number): Sequence<T> {
+    // If the count is less than 0, return an empty sequence.
+    if (count < 0)
+      return new Sequence<T>(new Array<T>(), { directStore: true });
+
+    // If the count is greater than the number of items in the sequence,
+    // return the entire sequence.
+    if (count > this.data.length)
+      return new Sequence<T>(this.data, { directStore: true });
+
+    // If the count is greater than zero, and less than the number of
+    // items in the sequence, return the specified number of items from
+    // the sequence, beginning at index 0.
+    return new Sequence<T>(this.data.slice(0, count), { directStore: true });
   }
   //#endregion
 

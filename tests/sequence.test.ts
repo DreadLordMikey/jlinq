@@ -287,6 +287,28 @@ describe("select() tests", () => {
 });
 //#endregion
 
+//#region take
+describe("take() tests", () => {
+  it("returns empty set when count is < 0", () => {
+    let count = Sequence.range(0, 100).take(-1).count();
+    expect(count).toEqual(0);
+  });
+  it("returns entire set when count is > sequence length", () => {
+    let count = Sequence.range(0, 100).take(10000).count();
+    expect(count).toEqual(100);
+  });
+  it("returns correct count when count is > 0 and < sequence length", () => {
+    let count = Sequence.range(0, 100).take(5).count();
+    expect(count).toEqual(5);
+  });
+  it("returns correct data when count is > 0 and < sequence length", () => {
+    let expected = [0, 1, 2, 3, 4];
+    let actual = Sequence.range(0, 10).take(5).toArray();
+    expect(actual).toEqual(expected);
+  });
+});
+//#endregion
+
 //#region toArray
 describe("toArray() tests", () => {
   var arr = [1, 2, 3, 4, 5];

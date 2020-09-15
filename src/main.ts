@@ -136,12 +136,23 @@ let selectDemo = () => {
 };
 //#endregion
 
-// allDemo();
-// anyDemo();
+//#region take
+let takeDemo = () => {
+  let records = from(data).take(1); // Returns the element at index 0.
+  console.log(records.count());
+  
+  let record = records.elementAt(0);
+  console.log(record.name);
+};
+//#endregion
+
+//allDemo();
+//anyDemo();
 //appendDemo();
-concatDemo();
+//concatDemo();
 //elementAtDemo();
 //elementAtOrDefaultDemo();
-// emptyDemo();
-// rangeDemo();
-// selectDemo();
+//emptyDemo();
+//rangeDemo();
+//selectDemo();
+takeDemo();

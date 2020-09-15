@@ -1,80 +1,93 @@
-// Performance test guidelines
-//
-// -  The profile method receives as its arguments the name of the method
-//    under test, maximum allowed time for the method under test, and a
-//    callback function.The callback function takes no parameters, and is
-//    expected to invoke the method under test.
-//
-//    profile() will create a test. This test will describe the method
-//    test and its maximum allowed run time. The test will execute the
-//    callback function and then evaluate the elapsed time. If the elapsed
-//    time is greater than the maximum time, the test fails.
-//
-// -  Each test must isolate the specific operation under test. The call to the
-//    profile method must capture ONLY the method being measured. Do not
-//    include any code to set up the test or to analyze the results.
-//
-// -  The test runner may report a longer execution time than the actual
-//    elapsed time. This is because the profile method isolates the callback
-//    function and measures ONLY that; the elapsed time for the unit test
-//    includes all the code to set up the test and to measure the performance
-//    of the callback.
-
-import { from, Sequence } from '../src/Sequence';
-import data, { dataRecord } from '../src/data';
+import { from, Sequence } from "../src/Sequence";
+import data, { dataRecord } from "../src/data";
 
 //#region profile
-let profile = (name: string, maxTime: number, f: Function) => {
+let profile = (f: Function, name?: string, maxTime: number = 1) => {
+  let title = `executes in ${maxTime.toFixed(2)}ms or less ${name ?? ""}`;
 
-  describe(`${name} performance test`, () => {
-    it(`${name} executes in ${maxTime}ms or less`, () => {
-      let started = performance.now();
-      f();
-      let stopped = performance.now();
-      let elapsed = stopped - started;
+  it(title, () => {
+    let started = performance.now();
+    f();
+    let stopped = performance.now();
+    let elapsed = stopped - started;
 
-      expect(elapsed).toBeLessThanOrEqual(maxTime);
-    });
+    expect(elapsed).toBeLessThanOrEqual(maxTime);
   });
 };
 //#endregion
 
 let sourceData: Sequence<dataRecord> = from(data);
 
-profile("all", .5, () => { sourceData.all((e) => e.isActive) });
-profile("any", .5, () => { sourceData.any((e) => e.isActive) });
+describe("all", () => {
+  profile(() => {
+    sourceData.all((e) => e.isActive);
+  });
+});
 
-// We need a new copy of the data so we don't pollute the original, here.
-var tempData = from(sourceData.toArray());
-var sourceItem = sourceData.elementAt(0);
-var item = { ...sourceItem };
-item.friends = { ...sourceItem.friends };
-item.tags = { ...sourceItem.tags };
-item._id = "1234567890";
+describe("any", () => {
+  profile(() => {
+    sourceData.any((e) => e.isActive);
+  });
+});
 
-profile("append", .5, () => { tempData.append(item) });
+describe("append", () => {
+  // We need a new copy of the data so we don't pollute the original, here.
+  var tempData = from(sourceData.toArray());
+  var sourceItem = sourceData.elementAt(0);
+  var item = { ...sourceItem };
+  item.friends = { ...sourceItem.friends };
+  item.tags = { ...sourceItem.tags };
+  item._id = "1234567890";
 
-// The product of this concatenation is an array containing 20,000 rows.
-// The concatenation should never take more than 1ms.
-profile("concat", 1, () => Sequence.range(0, 10000).concat(Sequence.range(10000, 10000)));
+  profile(() => {
+    tempData.append(item);
+  });
+});
 
-profile("count without a predicate", .1, () => sourceData.count());
-profile("count with a predicate", .5, () => sourceData.count(e => e.isActive));
+describe("concat", () => {
+  profile(() => Sequence.range(0, 10000).concat(Sequence.range(10000, 10000)));
+});
 
-profile("elementAt with valid index", .5, () => sourceData.elementAt(0));
+describe("count", () => {
+  profile(() => sourceData.count(), "without a predicate");
+  profile(() => sourceData.count((e) => e.isActive), "with a predicate");
+});
 
-profile("elementAtOrDefault with invalid index", .5, () => sourceData.elementAtOrDefault(-1));
-profile("elementAtOrDefault with valid index", .5, () => sourceData.elementAtOrDefault(0));
+describe("elementAt", () =>
+  profile(() => {
+    sourceData.elementAt(0);
+  }));
 
-profile("empty", .1, () => Sequence.empty<number>());
+describe("elementAtOrDefault", () => {
+  profile(() => sourceData.elementAtOrDefault(-1), "with invalid index");
+  profile(() => sourceData.elementAtOrDefault(0), "with valid index");
+});
 
-profile("select", .5, () => sourceData.select((d) => ({
-  address: d.address,
-  email: d.email,
-  name: d.name,
-  phone: d.phone,
-})));
+describe("empty", () => {
+  profile(() => Sequence.empty<number>());
+});
 
-profile("toArray", .5, () => sourceData.toArray());
+describe("select", () =>
+  profile(() => sourceData.select((d) => ({
+    address: d.address,
+    email: d.email,
+    name: d.name,
+    phone: d.phone,
+  }))));
 
-profile("where", .5, () => sourceData.where(e => e.isActive));
+describe("take", () => {
+  profile(() => Sequence.range(0, 1000).take(-1), "where count < 0");
+  profile(
+    () => Sequence.range(0, 1000).take(50000),
+    "where count > sequence count"
+  );
+  profile(() => Sequence.range(0, 1000).take(50), "where count is valid");
+});
+
+describe("toArray", () => {
+  profile(() => sourceData.toArray());
+});
+
+describe("where", () => {
+  profile(() => sourceData.where((e) => e.isActive));
+});
