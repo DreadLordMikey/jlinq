@@ -248,6 +248,15 @@ export class Sequence<T> implements ISequence<T> {
   //#endregion
 
   //#region skip
+  /**
+   * Bypasses a specified number of elements in a sequence and then returns the remaining elements.
+   * @param {number} count The number of elements to skip.
+   * @returns A Sequence&lt;T&gt; that contains the elements that occur after the specified index
+   * in this sequence.
+   * @remarks If count is less than or equal to zero, all elements in the source sequence are
+   * returned. If count is greater than the number of elements in the sequence, an empty sequence
+   * is returned. 
+   */
   skip(count: number): Sequence<T> {
     // If count is less than or equal to zero, return all elements.
     if (count <= 0) {
