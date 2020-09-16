@@ -307,12 +307,22 @@ export class Sequence<T> implements ISequence<T> {
    * and then skips the remaining elements.
    * @param {Predicate} predicate A function to test each element for a
    * condition.
-   * @returns {Sequence} A Sequence&lt;T&gt; that contains the elements from
-   * this sequence that occur before the element at which the test no longer
+   * @returns {Sequence} A sequence that contains the elements from this
+   * sequence that occur before the element at which the test no longer
    * passes.
+   * @remarks `takeWhile` uses `Array.prototype.findIndex` to retrieve the
+   * index of the first element in the sequence that does not satisfy the
+   * predicate condition.
+   *
+   * If no elements satisfy this condition, the entire sequence is returned.
+   * Otherwise, all elements up to and excluding that element are returned.
+   * The order of the elements in the sequence is preserved.
+   * @throws An exception is thrown if `predicate` is `null` or `undefined`.
    */
   takeWhile(predicate: Predicate<T>): Sequence<T> {
-    // Get the index of the first element to return false;
+    if (!predicate) {
+      throw "Argument null or undefined: predicate";
+    }
     let index = this.data.findIndex((e, i) => !predicate(e, i));
     return this.take(index);
   }
