@@ -1,7 +1,9 @@
+/** @internal */
 type friendData = {
     id: number,
     name: string,
 };
+/** @interal */
 export type dataRecord = {
     _id: string,
     index: number,
@@ -27,6 +29,7 @@ export type dataRecord = {
     favoriteFruit: string,
 }
 
+/** @internal */
 let data : dataRecord[] = [
     {
         "_id": "5f5da5c5b590abd9b8af3bbe",
