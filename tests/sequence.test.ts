@@ -319,6 +319,33 @@ describe("skip() tests", () => {
 });
 //#endregion
 
+//#region skipWhile
+describe("skipWhile() tests", () => {
+  let seq: Sequence<number>;
+  beforeEach(() => seq = Sequence.range(0, 100));
+  it("throws if predicate is null", () => {
+    expect(() => seq.skipWhile(null)).toThrow();
+  });
+  it("throws if predicate is undefined", () => {
+    expect(() => seq.skipWhile(undefined)).toThrow();
+   });
+  it("returns empty set if all items match predicate condition", () => {
+    let skipCount = seq.skipWhile(n => n < 500).count();
+    expect(skipCount).toEqual(0);
+  });
+  it("returns subset if some items match predicate condition", () => {
+    let received = seq.skipWhile(n => n < 90).toArray();
+    let expected = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99];
+    expect(received).toEqual(expected);
+  });
+  it("returns all items if no items match predicate condition", () => {
+    let received = seq.skipWhile(n => n > 100).toArray()
+    let expected = Sequence.range(0, 100).toArray();
+    expect(received).toEqual(expected);
+  });
+});
+//#endregion
+
 //#region take
 describe("take() tests", () => {
   it("returns empty set when count is < 0", () => {

@@ -2,30 +2,22 @@
 
 //#region Predicate
 /**
- * A function provided to a standard query operator to determine whether or
- * not an item in a sequence should be included in the results.
- *
- * A predicate receives, as its sole argument, the current item in the array.
- * The predicate returns true if the item should be included in the results;
- * otherwise, it returns false.
+ * A function used to test whether or not an element in a sequence satisfies a
+ * condition.
+ * @param {T} source The current element in the sequence.
+ * @param {number} index The index of `source` in the sequence.
+ * @returns {booelan} `true` if `source` satisfies the predicate condition;
+ * otherwise, `false`.
  */
 export type Predicate<T> = (source: T, index?: number) => boolean;
 //#endregion
 
 //#region Selector
 /**
- * A function provided to a standard query operator to project an element of a
- * sequence from one form to another.
+ * A function used to project an element in a sequence from one form into another.
  *
- * The first argument to this function is the current element in the sequence.
- *
- * The second argument to this function is the index of the current element in
- * the sequence.
- *
- * @param source {TSource} The current element in the sequence.
- * @param index {number} Optional. The index of the current element in the
- * sequence.
- *
+ * @param {TSource} source The current element in the sequence.
+ * @param {number} index The index of `source` in the sequence.
  * @returns {TReturn} A new object representing the transformed data.
  */
 export type Selector<TSource, TReturn> = (
@@ -55,6 +47,7 @@ export interface ISequence<T> {
   select<TReturn>(selector: Selector<T, TReturn>): any;
 
   skip(count: number): ISequence<T>;
+  skipWhile(predicate: Predicate<T>): ISequence<T>;
 
   take(count: number): ISequence<T>;
   takeWhile(predicate: Predicate<T>): ISequence<T>;

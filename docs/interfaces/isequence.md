@@ -27,6 +27,7 @@
 * [elementAtOrDefault](isequence.md#elementatordefault)
 * [select](isequence.md#select)
 * [skip](isequence.md#skip)
+* [skipWhile](isequence.md#skipwhile)
 * [take](isequence.md#take)
 * [takeWhile](isequence.md#takewhile)
 * [where](isequence.md#where)
@@ -37,7 +38,7 @@
 
 ▸ **all**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *boolean*
 
-*Defined in [interfaces.ts:39](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L39)*
+*Defined in [interfaces.ts:31](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L31)*
 
 **Parameters:**
 
@@ -53,13 +54,13 @@ ___
 
 ▸ **any**(): *boolean*
 
-*Defined in [interfaces.ts:41](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L41)*
+*Defined in [interfaces.ts:33](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L33)*
 
 **Returns:** *boolean*
 
 ▸ **any**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *boolean*
 
-*Defined in [interfaces.ts:42](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L42)*
+*Defined in [interfaces.ts:34](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L34)*
 
 **Parameters:**
 
@@ -75,7 +76,7 @@ ___
 
 ▸ **append**(`element`: T): *[ISequence](isequence.md)‹T›*
 
-*Defined in [interfaces.ts:44](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L44)*
+*Defined in [interfaces.ts:36](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L36)*
 
 **Parameters:**
 
@@ -91,7 +92,7 @@ ___
 
 ▸ **concat**(`items`: T[]): *[ISequence](isequence.md)‹T›*
 
-*Defined in [interfaces.ts:46](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L46)*
+*Defined in [interfaces.ts:38](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L38)*
 
 **Parameters:**
 
@@ -103,7 +104,7 @@ Name | Type |
 
 ▸ **concat**(`items`: [ISequence](isequence.md)‹T›): *[ISequence](isequence.md)‹T›*
 
-*Defined in [interfaces.ts:47](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L47)*
+*Defined in [interfaces.ts:39](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L39)*
 
 **Parameters:**
 
@@ -119,13 +120,13 @@ ___
 
 ▸ **count**(): *number*
 
-*Defined in [interfaces.ts:49](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L49)*
+*Defined in [interfaces.ts:41](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L41)*
 
 **Returns:** *number*
 
 ▸ **count**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *number*
 
-*Defined in [interfaces.ts:50](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L50)*
+*Defined in [interfaces.ts:42](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L42)*
 
 **Parameters:**
 
@@ -141,7 +142,7 @@ ___
 
 ▸ **elementAt**(`index`: number): *T*
 
-*Defined in [interfaces.ts:52](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L52)*
+*Defined in [interfaces.ts:44](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L44)*
 
 **Parameters:**
 
@@ -157,7 +158,7 @@ ___
 
 ▸ **elementAtOrDefault**(`index`: number): *T*
 
-*Defined in [interfaces.ts:53](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L53)*
+*Defined in [interfaces.ts:45](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L45)*
 
 **Parameters:**
 
@@ -173,7 +174,7 @@ ___
 
 ▸ **select**‹**TReturn**›(`selector`: [Selector](../globals.md#selector)‹T, TReturn›): *any*
 
-*Defined in [interfaces.ts:55](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L55)*
+*Defined in [interfaces.ts:47](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L47)*
 
 **Type parameters:**
 
@@ -193,7 +194,7 @@ ___
 
 ▸ **skip**(`count`: number): *[ISequence](isequence.md)‹T›*
 
-*Defined in [interfaces.ts:57](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L57)*
+*Defined in [interfaces.ts:49](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L49)*
 
 **Parameters:**
 
@@ -205,11 +206,27 @@ Name | Type |
 
 ___
 
+###  skipWhile
+
+▸ **skipWhile**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *[ISequence](isequence.md)‹T›*
+
+*Defined in [interfaces.ts:50](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L50)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`predicate` | [Predicate](../globals.md#predicate)‹T› |
+
+**Returns:** *[ISequence](isequence.md)‹T›*
+
+___
+
 ###  take
 
 ▸ **take**(`count`: number): *[ISequence](isequence.md)‹T›*
 
-*Defined in [interfaces.ts:59](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L59)*
+*Defined in [interfaces.ts:52](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L52)*
 
 **Parameters:**
 
@@ -225,7 +242,7 @@ ___
 
 ▸ **takeWhile**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *[ISequence](isequence.md)‹T›*
 
-*Defined in [interfaces.ts:60](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L60)*
+*Defined in [interfaces.ts:53](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L53)*
 
 **Parameters:**
 
@@ -241,7 +258,7 @@ ___
 
 ▸ **where**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *[ISequence](isequence.md)‹T›*
 
-*Defined in [interfaces.ts:62](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L62)*
+*Defined in [interfaces.ts:55](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L55)*
 
 **Parameters:**
 

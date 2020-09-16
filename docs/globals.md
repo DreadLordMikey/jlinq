@@ -28,14 +28,17 @@
 
 Ƭ **Predicate**: *function*
 
-*Defined in [interfaces.ts:12](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L12)*
+*Defined in [interfaces.ts:12](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L12)*
 
-A function provided to a standard query operator to determine whether or
-not an item in a sequence should be included in the results.
+A function used to test whether or not an element in a sequence satisfies a
+condition.
 
-A predicate receives, as its sole argument, the current item in the array.
-The predicate returns true if the item should be included in the results;
-otherwise, it returns false.
+**`param`** The current element in the sequence.
+
+**`param`** The index of `source` in the sequence.
+
+**`returns`** `true` if `source` satisfies the predicate condition;
+otherwise, `false`.
 
 #### Type declaration:
 
@@ -54,20 +57,13 @@ ___
 
 Ƭ **Selector**: *function*
 
-*Defined in [interfaces.ts:31](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/interfaces.ts#L31)*
+*Defined in [interfaces.ts:23](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L23)*
 
-A function provided to a standard query operator to project an element of a
-sequence from one form to another.
-
-The first argument to this function is the current element in the sequence.
-
-The second argument to this function is the index of the current element in
-the sequence.
+A function used to project an element in a sequence from one form into another.
 
 **`param`** The current element in the sequence.
 
-**`param`** Optional. The index of the current element in the
-sequence.
+**`param`** The index of `source` in the sequence.
 
 **`returns`** A new object representing the transformed data.
 
@@ -88,7 +84,7 @@ ___
 
 Ƭ **dataRecord**: *object*
 
-*Defined in [data.ts:7](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/data.ts#L7)*
+*Defined in [data.ts:7](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/data.ts#L7)*
 
 **`interal`** 
 
@@ -144,7 +140,7 @@ ___
 
 ▸ **from**‹**T**›(`arr`: Array‹T›): *[Sequence](classes/sequence.md)‹T›*
 
-*Defined in [Sequence.ts:10](https://github.com/DreadLordMikey/jlinq/blob/294b19e/src/Sequence.ts#L10)*
+*Defined in [Sequence.ts:10](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/Sequence.ts#L10)*
 
 Gets a Sequence&lt;T&gt; from an array.
 
