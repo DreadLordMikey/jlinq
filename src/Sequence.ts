@@ -1,4 +1,4 @@
-import { Predicate, ISequence, Selector } from "./interfaces";
+import { Predicate, Selector } from './interfaces';
 
 //#region from
 /**
@@ -13,13 +13,13 @@ export function from<T>(arr: Array<T>): Sequence<T> {
 //#endregion
 
 /** @template T */
-export class Sequence<T> implements ISequence<T> {
+export class Sequence<T> {
   data: Array<T>;
 
   //#region Constructor
   constructor(data: Array<T>) {
-    if (typeof data === "undefined" || data === null) {
-      throw "Object construction exception: The argument to the constructor of Sequence<T> cannot be null or undefined.";
+    if (typeof data === 'undefined' || data === null) {
+      throw 'Object construction exception: The argument to the constructor of Sequence<T> cannot be null or undefined.';
     }
     this.data = data;
   }
@@ -49,9 +49,9 @@ export class Sequence<T> implements ISequence<T> {
    * @param predicate A function to test each element for a condition.
    */
   any(predicate?: Predicate<T>): boolean;
-  any(predicate?: any): boolean {
+  any(predicate?: unknown): boolean {
     if (predicate) {
-      let index = this.data.findIndex(predicate);
+      const index = this.data.findIndex(<Predicate<T>>predicate);
       return index > -1;
     } else {
       return this.data.length > 0;
@@ -84,12 +84,12 @@ export class Sequence<T> implements ISequence<T> {
    * @returns {Sequence} A Sequence&lt;T&gt; An that contains the concatenated
    * elements of the two input sequences.
    */
-  concat(items: ISequence<T>): Sequence<T>;
-  concat(items: any): Sequence<T> {
+  concat(items: Sequence<T>): Sequence<T>;
+  concat(items: unknown): Sequence<T> {
     if (Array.isArray(items)) {
       return new Sequence<T>(this.data.concat(items));
     } else {
-      return new Sequence<T>(this.data.concat(items.toArray()));
+      return new Sequence<T>(this.data.concat((<Sequence<T>>items).toArray()));
     }
   }
   //#endregion
@@ -108,9 +108,9 @@ export class Sequence<T> implements ISequence<T> {
    * satisfy the condition in the predicate function.
    */
   count(predicate: Predicate<T>): number;
-  count(predicate?: any) {
+  count(predicate?: unknown): number {
     if (predicate) {
-      return this.data.filter(predicate).length;
+      return this.data.filter(<Predicate<T>>predicate).length;
     } else {
       return this.data.length;
     }
@@ -125,7 +125,7 @@ export class Sequence<T> implements ISequence<T> {
    */
   elementAt(index: number): T {
     if (index < 0 || index >= this.data.length) {
-      throw "Index out of range exception: index is less than 0 or greater than or equal to the number of elements in the sequence.";
+      throw 'Index out of range exception: index is less than 0 or greater than or equal to the number of elements in the sequence.';
     }
     return this.data[index];
   }
@@ -152,13 +152,13 @@ export class Sequence<T> implements ISequence<T> {
       //
       // For all reference types, the default value is null. For numerics, it is
       // 0; for booleans it is false.
-      var t = typeof this.data[0];
+      const t = typeof this.data[0];
       switch (t) {
-        case "bigint":
+        case 'bigint':
           return <T>(<unknown>0);
-        case "boolean":
+        case 'boolean':
           return <T>(<unknown>false);
-        case "number":
+        case 'number':
           return <T>(<unknown>0);
         default:
           return <T>(<unknown>null);
@@ -190,7 +190,7 @@ export class Sequence<T> implements ISequence<T> {
    * numbers.
    */
   static range(start: number, count: number): Sequence<number> {
-    let arr = new Array<number>(count);
+    const arr = new Array<number>(count);
     let value = start;
     for (let i = 0; i < count; i++) {
       arr[i] = value;
@@ -210,7 +210,7 @@ export class Sequence<T> implements ISequence<T> {
    * data.
    */
   select<TReturn>(selector: Selector<T, TReturn>): Sequence<TReturn> {
-    let data: Array<TReturn> = this.data.map(selector);
+    const data: Array<TReturn> = this.data.map(selector);
     return from(data);
   }
   //#endregion
@@ -263,10 +263,10 @@ export class Sequence<T> implements ISequence<T> {
    */
   skipWhile(predicate: Predicate<T>): Sequence<T> {
     if (!predicate) {
-      throw "Argument null or undefined: predicate";
+      throw 'Argument null or undefined: predicate';
     }
-    var firstNonMatchingIndex = this.data.findIndex(
-      (v: T, i: number) => !predicate(v, i)
+    const firstNonMatchingIndex = this.data.findIndex(
+      (v: T, i: number) => !predicate(v, i),
     );
     if (firstNonMatchingIndex === -1) {
       return new Sequence<T>([]);
@@ -323,7 +323,7 @@ export class Sequence<T> implements ISequence<T> {
     if (!predicate) {
       throw "Argument null or undefined: predicate";
     }
-    let index = this.data.findIndex((e, i) => !predicate(e, i));
+    const index = this.data.findIndex((e, i) => !predicate(e, i));
     return this.take(index);
   }
   //#endregion
@@ -362,11 +362,11 @@ export class Sequence<T> implements ISequence<T> {
    * condition.
    */
   where(predicate: Predicate<T>): Sequence<T> {
-    if (predicate === null || typeof predicate === "undefined") {
+    if (predicate === null || typeof predicate === 'undefined') {
       throw 'Object null or undefined: predicate is required when calling "where".';
     }
 
-    let items = this.data.filter(predicate);
+    const items = this.data.filter(predicate);
     return new Sequence([...items]);
   }
   //#endregion
