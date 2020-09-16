@@ -181,6 +181,41 @@ export class Sequence<T> {
   }
   //#endregion
 
+  //#region first
+  /**
+   * Gets the first item in a sequence.
+   * @returns {T} The first element in the sequence.
+   * @throws An exception is thrown if the sequence is empty.
+   */
+  first(): T;
+  /**
+   * Gets the first item in the sequence that satisfies a condition.
+   * @param {Predicate} predicate A function to test for a condition.
+   * @returns {T} The first element in the sequence that satisfies the
+   * predicate condition.
+   * @throws An exception is thrown if the sequence is empty or if no
+   * elements in the sequence satisfy the predicate condition.
+   */
+  first(predicate: Predicate<T>): T;
+  first(predicate?: unknown): T {
+    if (this.data.length === 0) {
+      throw 'Invalid operation: sequence is empty.';
+    }
+
+    if (!predicate) {
+      return this.data[0];
+    } else {
+      const index: number = this.data.findIndex((e, i) =>
+        (<Predicate<T>>predicate)(e, i),
+      );
+      if (index === -1) {
+        throw 'Invalid operation: no elements satisfy predicate condition.';
+      }
+      return this.data[index];
+    }
+  }
+  //#endregion
+
   //#region range
   /**
    * Generates a sequence of integral numbers within a specified range.
