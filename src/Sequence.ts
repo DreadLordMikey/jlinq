@@ -1,9 +1,5 @@
 import { Predicate, ISequence, Selector } from "./interfaces";
 
-type SequenceConstructionOptions = {
-  directStore: boolean;
-};
-
 //#region from
 /**
  * Gets a Sequence&lt;T&gt; from an array.
@@ -21,14 +17,11 @@ export class Sequence<T> implements ISequence<T> {
   data: Array<T>;
 
   //#region Constructor
-  constructor(data: Array<T>, options?: SequenceConstructionOptions) {
+  constructor(data: Array<T>) {
     if (typeof data === "undefined" || data === null) {
       throw "Object construction exception: The argument to the constructor of Sequence<T> cannot be null or undefined.";
     }
-
-    options = options ?? this.getDefaultConstructionOptions();
-
-    this.data = options?.directStore ? data : [...data];
+    this.data = data;
   }
   //#endregion
 
@@ -73,7 +66,7 @@ export class Sequence<T> implements ISequence<T> {
    * @returns {Sequence<T>} A new sequence that ends with element.
    */
   append(element: T): Sequence<T> {
-    return new Sequence<T>(this.data.concat([element]), { directStore: true });
+    return new Sequence<T>(this.data.concat([element]));
   }
   //#endregion
 
@@ -94,11 +87,9 @@ export class Sequence<T> implements ISequence<T> {
   concat(items: ISequence<T>): Sequence<T>;
   concat(items: any): Sequence<T> {
     if (Array.isArray(items)) {
-      return new Sequence<T>(this.data.concat(items), { directStore: true });
+      return new Sequence<T>(this.data.concat(items));
     } else {
-      return new Sequence<T>(this.data.concat(items.toArray()), {
-        directStore: true,
-      });
+      return new Sequence<T>(this.data.concat(items.toArray()));
     }
   }
   //#endregion
@@ -224,29 +215,6 @@ export class Sequence<T> implements ISequence<T> {
   }
   //#endregion
 
-  //#region where
-  /**
-   * Filters a sequence of values based on a predicate.
-   * @param predicate A function to test each source element for a condition.
-   *
-   * The first argument to the predicate is the current item in the sequence.
-   *
-   * The second argument to the predicate is the index of the item in the
-   * sequence.
-   *
-   * @returns A Sequence<T> containing the rows that satisfy the predicate
-   * condition.
-   */
-  where(predicate: Predicate<T>): Sequence<T> {
-    if (predicate === null || typeof predicate === "undefined") {
-      throw 'Object null or undefined: predicate is required when calling "where".';
-    }
-
-    let items = this.data.filter(predicate);
-    return new Sequence([...items]);
-  }
-  //#endregion
-
   //#region skip
   /**
    * Bypasses a specified number of elements in a sequence and then returns the remaining elements.
@@ -255,23 +223,23 @@ export class Sequence<T> implements ISequence<T> {
    * in this sequence.
    * @remarks If count is less than or equal to zero, all elements in the source sequence are
    * returned. If count is greater than the number of elements in the sequence, an empty sequence
-   * is returned. 
+   * is returned.
    */
   skip(count: number): Sequence<T> {
     // If count is less than or equal to zero, return all elements.
     if (count <= 0) {
-      return new Sequence<T>(this.data, { directStore: true });
+      return new Sequence<T>(this.data);
     }
 
     // If count is greater than the number of items in the array,
     // return an empty sequence.
     if (count > this.data.length) {
-      return new Sequence<T>([], { directStore: true });
+      return new Sequence<T>([]);
     }
 
     // Otherwise, get all items starting at the index specified by count to the
     // end of the array.
-    return new Sequence<T>(this.data.splice(count), { directStore: true });
+    return new Sequence<T>(this.data.splice(count));
   }
   //#endregion
 
@@ -289,17 +257,17 @@ export class Sequence<T> implements ISequence<T> {
   take(count: number): Sequence<T> {
     // If the count is less than 0, return an empty sequence.
     if (count < 0)
-      return new Sequence<T>(new Array<T>(), { directStore: true });
+      return new Sequence<T>(new Array<T>());
 
     // If the count is greater than the number of items in the sequence,
     // return the entire sequence.
     if (count > this.data.length)
-      return new Sequence<T>(this.data, { directStore: true });
+      return new Sequence<T>(this.data);
 
     // If the count is greater than zero, and less than the number of
     // items in the sequence, return the specified number of items from
     // the sequence, beginning at index 0.
-    return new Sequence<T>(this.data.slice(0, count), { directStore: true });
+    return new Sequence<T>(this.data.slice(0, count));
   }
   //#endregion
 
@@ -340,9 +308,35 @@ export class Sequence<T> implements ISequence<T> {
   }
   //#endregion
 
+
+  //#region where
+  /**
+   * Filters a sequence of values based on a predicate.
+   * @param predicate A function to test each source element for a condition.
+   *
+   * The first argument to the predicate is the current item in the sequence.
+   *
+   * The second argument to the predicate is the index of the item in the
+   * sequence.
+   *
+   * @returns A Sequence<T> containing the rows that satisfy the predicate
+   * condition.
+   */
+  where(predicate: Predicate<T>): Sequence<T> {
+    if (predicate === null || typeof predicate === "undefined") {
+      throw 'Object null or undefined: predicate is required when calling "where".';
+    }
+
+    let items = this.data.filter(predicate);
+    return new Sequence([...items]);
+  }
+  //#endregion
+
+  //#region getDefaultConstructionOptions
   private getDefaultConstructionOptions() {
     return {
       directStore: false,
     };
   }
+  //#endregion
 }
