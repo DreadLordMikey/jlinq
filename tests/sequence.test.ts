@@ -225,6 +225,25 @@ describe('empty() tests', () => {
 });
 //#endregion
 
+//#region first
+describe('first() tests', () => {
+  it('throws if sequence is empty', () => {
+    expect(() => from([]).first()).toThrow();
+  });
+  it('returns first element in populated sequence when no predicate is provided', () => {
+    const received = from([1, 2, 3]).first();
+    expect(received).toEqual(1);
+  });
+  it('throws when no elements in sequence satisfy predicate condition', () => {
+    expect(() => from([1, 2, 3]).first((n) => n === 5)).toThrow();
+  });
+  it('returns first item that matches predicate condition', () => {
+    const received = from([17, 5, 50, 87, 2]).first((n) => n % 50 === 0);
+    expect(received).toEqual(50);
+  });
+});
+//#endregion
+
 //#region select
 describe('select() tests', () => {
   it('returns non-empty set', () => {
