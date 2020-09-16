@@ -366,6 +366,30 @@ describe('take() tests', () => {
 });
 //#endregion
 
+//#region takeWhile
+describe("takeWhile() tests", () => {
+  const seq = Sequence.range(-50, 100);
+  it("throws if predicate is null", () => {
+    expect(() => seq.takeWhile(null)).toThrow();
+  });
+  it("returns correct count with when some items satisfy predicate condition", () => {
+    let subset = seq.takeWhile(e => e < 0);
+    let count = subset.count();
+    expect(count).toEqual(50);
+  });
+  it("returns correct data when some items satisfy predicate condition", () => {
+    let subset = seq.takeWhile(e => e < 0).toArray();
+    let expected = seq.toArray().slice(0, 50);
+    expect(subset).toEqual(expected);
+  });
+  it("returns empty set when no items satisfy predicate condition", () => {
+    let subset = seq.takeWhile(e => e > 100);
+    let count = subset.count();
+    expect(count).toEqual(0);
+  });
+});
+//#endregion
+
 //#region toArray
 describe('toArray() tests', () => {
   const arr = [1, 2, 3, 4, 5];
