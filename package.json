@@ -18,7 +18,7 @@
   "scripts": {
     "test": "jest",
     "start": "npx ts-node src/main.ts",
-    "doc": "npx typedoc --plugin typedoc-plugin-markdown --mode file --out docs $$ npx concat-md --decrease-title-levels --dir-name-as-title docs > docs/README2.md"
+    "doc": "npx typedoc --plugin typedoc-plugin-markdown --excludePrivate --stripInternal --mode file --out docs"
   },
   "jest": {
     "verbose": true
