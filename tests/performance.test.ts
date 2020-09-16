@@ -1,118 +1,119 @@
-import { from, Sequence } from "../src/Sequence";
-import data, { dataRecord } from "../src/data";
+import { from, Sequence } from '../src/Sequence';
+import data, { dataRecord } from '../src/data';
+import { Action } from '../src/interfaces';
 
 //#region profile
-let profile = (f: Function, name?: string, maxTime: number = 1) => {
-  let title = `executes in ${maxTime.toFixed(2)}ms or less ${name ?? ""}`;
+const profile = (action: Action, name?: string, maxTime = 1) => {
+  const title = `executes in ${maxTime.toFixed(2)}ms or less ${name ?? ''}`;
 
   it(title, () => {
-    let started = performance.now();
-    f();
-    let stopped = performance.now();
-    let elapsed = stopped - started;
+    const started = performance.now();
+    action();
+    const stopped = performance.now();
+    const elapsed = stopped - started;
 
     expect(elapsed).toBeLessThanOrEqual(maxTime);
   });
 };
 //#endregion
 
-let sourceData: Sequence<dataRecord> = from(data);
+const sourceData: Sequence<dataRecord> = from(data);
 
-describe("all", () => {
+describe('all', () => {
   profile(() => {
     sourceData.all((e) => e.isActive);
   });
 });
 
-describe("any", () => {
+describe('any', () => {
   profile(() => {
     sourceData.any((e) => e.isActive);
   });
 });
 
-describe("append", () => {
+describe('append', () => {
   // We need a new copy of the data so we don't pollute the original, here.
-  var tempData = from(sourceData.toArray());
-  var sourceItem = sourceData.elementAt(0);
-  var item = { ...sourceItem };
+  const tempData = from(sourceData.toArray());
+  const sourceItem = sourceData.elementAt(0);
+  const item = { ...sourceItem };
   item.friends = { ...sourceItem.friends };
   item.tags = { ...sourceItem.tags };
-  item._id = "1234567890";
+  item._id = '1234567890';
 
   profile(() => {
     tempData.append(item);
   });
 });
 
-describe("concat", () => {
+describe('concat', () => {
   profile(() => Sequence.range(0, 10000).concat(Sequence.range(10000, 10000)));
 });
 
-describe("count", () => {
-  profile(() => sourceData.count(), "without a predicate");
-  profile(() => sourceData.count((e) => e.isActive), "with a predicate");
+describe('count', () => {
+  profile(() => sourceData.count(), 'without a predicate');
+  profile(() => sourceData.count((e) => e.isActive), 'with a predicate');
 });
 
-describe("elementAt", () =>
+describe('elementAt', () =>
   profile(() => {
     sourceData.elementAt(0);
   }));
 
-describe("elementAtOrDefault", () => {
-  profile(() => sourceData.elementAtOrDefault(-1), "with invalid index");
-  profile(() => sourceData.elementAtOrDefault(0), "with valid index");
+describe('elementAtOrDefault', () => {
+  profile(() => sourceData.elementAtOrDefault(-1), 'with invalid index');
+  profile(() => sourceData.elementAtOrDefault(0), 'with valid index');
 });
 
-describe("empty", () => {
+describe('empty', () => {
   profile(() => Sequence.empty<number>());
 });
 
-describe("select", () =>
+describe('select', () =>
   profile(() =>
     sourceData.select((d) => ({
       address: d.address,
       email: d.email,
       name: d.name,
       phone: d.phone,
-    }))
+    })),
   ));
 
-describe("skip", () => {
-  var seq = Sequence.range(0, 10000);
-  profile(() => seq.skip(100), "with index within array bounds");
-  profile(() => seq.skip(0), "with index === 0");
-  profile(() => seq.skip(-1), "with index === -1");
-  profile(() => seq.skip(seq.count()), "with index === array.length");
-  profile(() => seq.skip(50000), "with index > array.length");
+describe('skip', () => {
+  const seq = Sequence.range(0, 10000);
+  profile(() => seq.skip(100), 'with index within array bounds');
+  profile(() => seq.skip(0), 'with index === 0');
+  profile(() => seq.skip(-1), 'with index === -1');
+  profile(() => seq.skip(seq.count()), 'with index === array.length');
+  profile(() => seq.skip(50000), 'with index > array.length');
 });
 
-describe("skipWhile", () => {
-  var seq = Sequence.range(0, 1000);
+describe('skipWhile', () => {
+  const seq = Sequence.range(0, 1000);
   profile(() => {
     seq.skipWhile((n) => n < 50000);
-  }, "where all items pass predicate condition");
+  }, 'where all items pass predicate condition');
   profile(() => {
     seq.skipWhile((n) => n < 1000);
-  }, "where some items pass predicate condition");
+  }, 'where some items pass predicate condition');
 });
 
-describe("take", () => {
-  profile(() => Sequence.range(0, 1000).take(-1), "where count < 0");
+describe('take', () => {
+  profile(() => Sequence.range(0, 1000).take(-1), 'where count < 0');
   profile(
     () => Sequence.range(0, 1000).take(50000),
-    "where count > sequence count"
+    'where count > sequence count',
   );
-  profile(() => Sequence.range(0, 1000).take(50), "where count is valid");
+  profile(() => Sequence.range(0, 1000).take(50), 'where count is valid');
 });
 
-describe("takeWhile", () => {
+describe('takeWhile', () => {
   profile(() => Sequence.range(-50, 100).takeWhile((n) => n < 0));
 });
 
-describe("toArray", () => {
+describe('toArray', () => {
   profile(() => sourceData.toArray());
 });
 
-describe("where", () => {
+describe('where', () => {
   profile(() => sourceData.where((e) => e.isActive));
 });

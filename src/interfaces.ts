@@ -1,5 +1,7 @@
 // LINQ Interfaces
 
+export type Action = () => void;
+
 //#region Predicate
 /**
  * A function used to test whether or not an element in a sequence satisfies a
@@ -22,36 +24,6 @@ export type Predicate<T> = (source: T, index?: number) => boolean;
  */
 export type Selector<TSource, TReturn> = (
   source: TSource,
-  index: number
+  index: number,
 ) => TReturn;
-//#endregion
-
-//#region ISequence
-export interface ISequence<T> {
-  all(predicate: Predicate<T>): boolean;
-
-  any(): boolean;
-  any(predicate: Predicate<T>): boolean;
-
-  append(element: T): ISequence<T>;
-
-  concat(items: T[]): ISequence<T>;
-  concat(items: ISequence<T>): ISequence<T>;
-
-  count(): number;
-  count(predicate: Predicate<T>): number;
-
-  elementAt(index: number): T;
-  elementAtOrDefault(index: number): T;
-
-  select<TReturn>(selector: Selector<T, TReturn>): any;
-
-  skip(count: number): ISequence<T>;
-  skipWhile(predicate: Predicate<T>): ISequence<T>;
-
-  take(count: number): ISequence<T>;
-  takeWhile(predicate: Predicate<T>): ISequence<T>;
-
-  where(predicate: Predicate<T>): ISequence<T>;
-}
 //#endregion
