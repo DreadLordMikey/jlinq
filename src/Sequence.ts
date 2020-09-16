@@ -243,6 +243,38 @@ export class Sequence<T> implements ISequence<T> {
   }
   //#endregion
 
+  //#region skipWhile
+  /**
+   * Bypasses elements in a sequence as long as a specified condition is true
+   * and then returns the remaining elements.
+   * @param {Predicate} predicate A function to test each element for a
+   * condition.
+   * @returns {Sequence} A sequence that contains the elements from the input
+   * sequence starting at the first element in the linear series that does not
+   * pass the test specified by `predicate`.
+   * @remarks This method tests each element of the source sequence by using
+   * `predicate` and skips the element if the result is `true`. After the
+   * predicate returns `false` for an element, that element and the remaining
+   * elements in `source` are yielded, and there are no more invocations of
+   * `predicate`.
+   *
+   * If `predicate` returns `true` for all elements in a sequence, an empty
+   * sequence is returned.
+   */
+  skipWhile(predicate: Predicate<T>): Sequence<T> {
+    if (!predicate) {
+      throw "Argument null or undefined: predicate";
+    }
+    var firstNonMatchingIndex = this.data.findIndex(
+      (v: T, i: number) => !predicate(v, i)
+    );
+    if (firstNonMatchingIndex === -1) {
+      return new Sequence<T>([]);
+    }
+    return new Sequence<T>(this.data.slice(firstNonMatchingIndex));
+  }
+  //#endregion
+
   //#region take
   /**
    * Returns a specified number of contiguous elements from the start of a sequence.
@@ -256,13 +288,11 @@ export class Sequence<T> implements ISequence<T> {
    */
   take(count: number): Sequence<T> {
     // If the count is less than 0, return an empty sequence.
-    if (count < 0)
-      return new Sequence<T>(new Array<T>());
+    if (count < 0) return new Sequence<T>(new Array<T>());
 
     // If the count is greater than the number of items in the sequence,
     // return the entire sequence.
-    if (count > this.data.length)
-      return new Sequence<T>(this.data);
+    if (count > this.data.length) return new Sequence<T>(this.data);
 
     // If the count is greater than zero, and less than the number of
     // items in the sequence, return the specified number of items from
@@ -307,7 +337,6 @@ export class Sequence<T> implements ISequence<T> {
     return JSON.stringify(this.data, null, 2);
   }
   //#endregion
-
 
   //#region where
   /**

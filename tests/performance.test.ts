@@ -68,12 +68,14 @@ describe("empty", () => {
 });
 
 describe("select", () =>
-  profile(() => sourceData.select((d) => ({
-    address: d.address,
-    email: d.email,
-    name: d.name,
-    phone: d.phone,
-  }))));
+  profile(() =>
+    sourceData.select((d) => ({
+      address: d.address,
+      email: d.email,
+      name: d.name,
+      phone: d.phone,
+    }))
+  ));
 
 describe("skip", () => {
   var seq = Sequence.range(0, 10000);
@@ -82,6 +84,16 @@ describe("skip", () => {
   profile(() => seq.skip(-1), "with index === -1");
   profile(() => seq.skip(seq.count()), "with index === array.length");
   profile(() => seq.skip(50000), "with index > array.length");
+});
+
+describe("skipWhile", () => {
+  var seq = Sequence.range(0, 1000);
+  profile(() => {
+    seq.skipWhile((n) => n < 50000);
+  }, "where all items pass predicate condition");
+  profile(() => {
+    seq.skipWhile((n) => n < 1000);
+  }, "where some items pass predicate condition");
 });
 
 describe("take", () => {
@@ -94,7 +106,7 @@ describe("take", () => {
 });
 
 describe("takeWhile", () => {
-  profile(() => Sequence.range(-50, 100).takeWhile(n => n < 0));
+  profile(() => Sequence.range(-50, 100).takeWhile((n) => n < 0));
 });
 
 describe("toArray", () => {
