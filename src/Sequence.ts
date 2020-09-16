@@ -321,7 +321,7 @@ export class Sequence<T> {
    */
   takeWhile(predicate: Predicate<T>): Sequence<T> {
     if (!predicate) {
-      throw "Argument null or undefined: predicate";
+      throw 'Argument null or undefined: predicate';
     }
     const index = this.data.findIndex((e, i) => !predicate(e, i));
     return this.take(index);

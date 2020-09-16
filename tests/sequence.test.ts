@@ -367,24 +367,24 @@ describe('take() tests', () => {
 //#endregion
 
 //#region takeWhile
-describe("takeWhile() tests", () => {
+describe('takeWhile() tests', () => {
   const seq = Sequence.range(-50, 100);
-  it("throws if predicate is null", () => {
+  it('throws if predicate is null', () => {
     expect(() => seq.takeWhile(null)).toThrow();
   });
-  it("returns correct count with when some items satisfy predicate condition", () => {
-    let subset = seq.takeWhile(e => e < 0);
-    let count = subset.count();
+  it('returns correct count with when some items satisfy predicate condition', () => {
+    const subset = seq.takeWhile((e) => e < 0);
+    const count = subset.count();
     expect(count).toEqual(50);
   });
-  it("returns correct data when some items satisfy predicate condition", () => {
-    let subset = seq.takeWhile(e => e < 0).toArray();
-    let expected = seq.toArray().slice(0, 50);
+  it('returns correct data when some items satisfy predicate condition', () => {
+    const subset = seq.takeWhile((e) => e < 0).toArray();
+    const expected = seq.toArray().slice(0, 50);
     expect(subset).toEqual(expected);
   });
-  it("returns empty set when no items satisfy predicate condition", () => {
-    let subset = seq.takeWhile(e => e > 100);
-    let count = subset.count();
+  it('returns empty set when no items satisfy predicate condition', () => {
+    const subset = seq.takeWhile((e) => e > 100);
+    const count = subset.count();
     expect(count).toEqual(0);
   });
 });
