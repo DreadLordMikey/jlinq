@@ -100,6 +100,19 @@ describe('skip', () => {
   profile(() => seq.skip(50000), 'with index > array.length');
 });
 
+describe('single', () => {
+  const seq = from([150]);
+  profile(() => seq.single(), 'with single element and no predicate');
+  profile(
+    () => seq.single((e) => e === 150),
+    'with single element and predicate',
+  );
+  profile(
+    () => from([1, 2, 3]).single((e) => e === 2),
+    'with multiple elements and predicate',
+  );
+});
+
 describe('skipWhile', () => {
   const seq = Sequence.range(0, 1000);
   profile(() => {

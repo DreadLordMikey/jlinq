@@ -360,6 +360,50 @@ describe('select() tests', () => {
 });
 //#endregion
 
+//#region single
+describe('single', () => {
+  it('throws if sequence is empty and no predicate is provided', () => {
+    expect(() => {
+      from([]).single();
+    }).toThrow('Invalid operation exception: sequence is empty.');
+  });
+  it('throws if sequence is empty and predicate is provided', () => {
+    const seq = new Sequence<number>([]);
+    expect(() => {
+      seq.single((n) => n === 5);
+    }).toThrow('Invalid operation exception: sequence is empty.');
+  });
+  it('throws if sequence contains multiple elements and no predicate is provided', () => {
+    const seq = from([1, 2, 3, 4, 5]);
+    expect(() => {
+      seq.single();
+    }).toThrow(
+      'Invalid operation exception: sequence contains multiple elements.',
+    );
+  });
+  it('returns element if sequence contains single element and no predicate is provided', () => {
+    expect(from([150]).single()).toEqual(150);
+  });
+  it('throws if sequence is not empty and no elements satisfy predicate condition', () => {
+    expect(() => {
+      from([1, 2, 3, 4, 5]).single((n) => n === 10);
+    }).toThrow(
+      'Invalid operation exception: no items match predicate condition.',
+    );
+  });
+  it('throws if sequence is not empty and multiple elements satisfy predicate condition', () => {
+    expect(() => {
+      from([1, 2, 3, 4, 5]).single((n) => n % 2 === 0);
+    }).toThrow(
+      'Invalid operation exception: multiple items match predicate condition.',
+    );
+  });
+  it('returns element if sequence is not empty and single element satisfies predicate condition', () => {
+    expect(from([1, 2, 3, 4, 5]).single((n) => n === 3)).toEqual(3);
+  });
+});
+//#endregion
+
 //#region skip
 describe('skip() tests', () => {
   it('returns all items if count < array size', () => {

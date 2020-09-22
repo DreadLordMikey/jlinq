@@ -30,7 +30,9 @@
 * [elementAt](sequence.md#elementat)
 * [elementAtOrDefault](sequence.md#elementatordefault)
 * [first](sequence.md#first)
+* [firstOrDefault](sequence.md#firstordefault)
 * [select](sequence.md#select)
+* [single](sequence.md#single)
 * [skip](sequence.md#skip)
 * [skipWhile](sequence.md#skipwhile)
 * [take](sequence.md#take)
@@ -47,7 +49,7 @@
 
 \+ **new Sequence**(`data`: Array‹T›): *[Sequence](sequence.md)*
 
-*Defined in [Sequence.ts:17](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L17)*
+*Defined in [Sequence.ts:17](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L17)*
 
 **Parameters:**
 
@@ -63,7 +65,7 @@ Name | Type |
 
 • **data**: *Array‹T›*
 
-*Defined in [Sequence.ts:17](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L17)*
+*Defined in [Sequence.ts:17](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L17)*
 
 ## Methods
 
@@ -71,7 +73,7 @@ Name | Type |
 
 ▸ **all**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *boolean*
 
-*Defined in [Sequence.ts:36](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L36)*
+*Defined in [Sequence.ts:36](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L36)*
 
 Determines whether all elements of a sequence satisfy a condition.
 
@@ -92,7 +94,7 @@ ___
 
 ▸ **any**(): *boolean*
 
-*Defined in [Sequence.ts:46](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L46)*
+*Defined in [Sequence.ts:46](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L46)*
 
 Determines if any elements exist in the sequence.
 
@@ -102,7 +104,7 @@ true if any elements exist in the sequence; otherwise, false.
 
 ▸ **any**(`predicate?`: [Predicate](../globals.md#predicate)‹T›): *boolean*
 
-*Defined in [Sequence.ts:51](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L51)*
+*Defined in [Sequence.ts:51](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L51)*
 
 Determines if any elements exist in the sequence that satisfy a condition.
 
@@ -120,7 +122,7 @@ ___
 
 ▸ **append**(`element`: T): *[Sequence](sequence.md)‹T›*
 
-*Defined in [Sequence.ts:68](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L68)*
+*Defined in [Sequence.ts:68](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L68)*
 
 Appends a value to the end of the sequence.
 
@@ -140,7 +142,7 @@ ___
 
 ▸ **concat**(`items`: T[]): *[Sequence](sequence.md)‹T›*
 
-*Defined in [Sequence.ts:80](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L80)*
+*Defined in [Sequence.ts:80](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L80)*
 
 Concatenates two sequences.
 
@@ -157,7 +159,7 @@ elements of the two input sequences.
 
 ▸ **concat**(`items`: [Sequence](sequence.md)‹T›): *[Sequence](sequence.md)‹T›*
 
-*Defined in [Sequence.ts:87](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L87)*
+*Defined in [Sequence.ts:87](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L87)*
 
 Concatenates two sequences.
 
@@ -178,7 +180,7 @@ ___
 
 ▸ **count**(): *number*
 
-*Defined in [Sequence.ts:102](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L102)*
+*Defined in [Sequence.ts:102](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L102)*
 
 Returns the number of elements in a sequence.
 
@@ -188,7 +190,7 @@ The total number of elements in the sequence.
 
 ▸ **count**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *number*
 
-*Defined in [Sequence.ts:110](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L110)*
+*Defined in [Sequence.ts:110](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L110)*
 
 Returns a number that represents how many elements in the sequence
 satisfy a condition.
@@ -210,7 +212,7 @@ ___
 
 ▸ **elementAt**(`index`: number): *T*
 
-*Defined in [Sequence.ts:126](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L126)*
+*Defined in [Sequence.ts:126](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L126)*
 
 Returns the element at a specified index in a sequence.
 
@@ -228,9 +230,9 @@ ___
 
 ###  elementAtOrDefault
 
-▸ **elementAtOrDefault**(`index`: number): *T*
+▸ **elementAtOrDefault**(`defaultValue`: T, `index`: number): *T*
 
-*Defined in [Sequence.ts:143](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L143)*
+*Defined in [Sequence.ts:145](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L145)*
 
 Returns the element at a specified index in a sequence or a default value
 if the index is out of range.
@@ -239,11 +241,12 @@ if the index is out of range.
 
 Name | Type | Description |
 ------ | ------ | ------ |
+`defaultValue` | T | The value to return if there are no elements in the sequence or if the specified element does not exist. |
 `index` | number | The zero-based index of the element to retrieve. |
 
 **Returns:** *T*
 
-default {T} if the index is outside the bounds of the source
+defaultValue if the index is outside the bounds of the source
 sequence; otherwise, the element at the specified position in the source
 sequence.
 
@@ -253,7 +256,7 @@ ___
 
 ▸ **first**(): *T*
 
-*Defined in [Sequence.ts:190](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L190)*
+*Defined in [Sequence.ts:172](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L172)*
 
 Gets the first item in a sequence.
 
@@ -265,7 +268,7 @@ The first element in the sequence.
 
 ▸ **first**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *T*
 
-*Defined in [Sequence.ts:199](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L199)*
+*Defined in [Sequence.ts:181](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L181)*
 
 Gets the first item in the sequence that satisfies a condition.
 
@@ -285,11 +288,52 @@ predicate condition.
 
 ___
 
+###  firstOrDefault
+
+▸ **firstOrDefault**(`defaultValue`: T): *T*
+
+*Defined in [Sequence.ts:210](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L210)*
+
+Gets the first element in the sequence, or a default value if there are no
+elements in the sequence.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`defaultValue` | T | The value to return if there are no elements in the sequence. |
+
+**Returns:** *T*
+
+The first element in the sequence if one exists; otherwise,
+`defaultValue` is returned.
+
+▸ **firstOrDefault**(`defaultValue`: T, `predicate`: [Predicate](../globals.md#predicate)‹T›): *T*
+
+*Defined in [Sequence.ts:221](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L221)*
+
+Gets the first element in the sequence that satisfies a condition, or a
+default value if no elements satisfy the condition.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`defaultValue` | T | The value to return if either there are no elements in the sequence or there are no elements in the sequence that satisfy the predicate condition. |
+`predicate` | [Predicate](../globals.md#predicate)‹T› | A function to test each element for a condition. |
+
+**Returns:** *T*
+
+The first element in the sequence that satisfies the predicate
+condition; otherwise, `defaultValue` is returned.
+
+___
+
 ###  select
 
 ▸ **select**‹**TReturn**›(`selector`: [Selector](../globals.md#selector)‹T, TReturn›): *[Sequence](sequence.md)‹TReturn›*
 
-*Defined in [Sequence.ts:247](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L247)*
+*Defined in [Sequence.ts:270](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L270)*
 
 Projects each element of a sequence into a new form.
 
@@ -310,11 +354,49 @@ data.
 
 ___
 
+###  single
+
+▸ **single**(): *T*
+
+*Defined in [Sequence.ts:285](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L285)*
+
+Gets the single element from this sequence.
+
+**`throws`** An exception is thrown if either the sequence is empty or the
+sequence contains more than one element.
+
+**Returns:** *T*
+
+T The single element in this sequence.
+
+▸ **single**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *T*
+
+*Defined in [Sequence.ts:300](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L300)*
+
+Gets the single element from this sequence that satisfies the provided
+predicate condition.
+
+**`throws`** An exception is thrown if either the sequence is empty or if
+multiple elements satisfy the provided predicate condition.
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`predicate` | [Predicate](../globals.md#predicate)‹T› |
+
+**Returns:** *T*
+
+T The single element in this sequence that satisfies the
+provided predicate condition.
+
+___
+
 ###  skip
 
 ▸ **skip**(`count`: number): *[Sequence](sequence.md)‹T›*
 
-*Defined in [Sequence.ts:263](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L263)*
+*Defined in [Sequence.ts:335](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L335)*
 
 Bypasses a specified number of elements in a sequence and then returns the remaining elements.
 
@@ -339,7 +421,7 @@ ___
 
 ▸ **skipWhile**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *[Sequence](sequence.md)‹T›*
 
-*Defined in [Sequence.ts:299](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L299)*
+*Defined in [Sequence.ts:371](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L371)*
 
 Bypasses elements in a sequence as long as a specified condition is true
 and then returns the remaining elements.
@@ -371,7 +453,7 @@ ___
 
 ▸ **take**(`count`: number): *[Sequence](sequence.md)‹T›*
 
-*Defined in [Sequence.ts:324](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L324)*
+*Defined in [Sequence.ts:396](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L396)*
 
 Returns a specified number of contiguous elements from the start of a sequence.
 
@@ -397,7 +479,7 @@ ___
 
 ▸ **takeWhile**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *[Sequence](sequence.md)‹T›*
 
-*Defined in [Sequence.ts:357](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L357)*
+*Defined in [Sequence.ts:429](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L429)*
 
 Returns elements from a sequence as long as a specified condition is true,
 and then skips the remaining elements.
@@ -430,7 +512,7 @@ ___
 
 ▸ **toArray**(): *Array‹T›*
 
-*Defined in [Sequence.ts:371](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L371)*
+*Defined in [Sequence.ts:443](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L443)*
 
 Copies the elements of the List<T> to a new array.
 
@@ -444,7 +526,7 @@ ___
 
 ▸ **toString**(): *string*
 
-*Defined in [Sequence.ts:381](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L381)*
+*Defined in [Sequence.ts:453](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L453)*
 
 Returns a string that represents the current object.
 
@@ -458,7 +540,7 @@ ___
 
 ▸ **where**(`predicate`: [Predicate](../globals.md#predicate)‹T›): *[Sequence](sequence.md)‹T›*
 
-*Defined in [Sequence.ts:399](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L399)*
+*Defined in [Sequence.ts:471](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L471)*
 
 Filters a sequence of values based on a predicate.
 
@@ -479,7 +561,7 @@ ___
 
 ▸ **empty**‹**TReturn**›(): *[Sequence](sequence.md)‹TReturn›*
 
-*Defined in [Sequence.ts:179](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L179)*
+*Defined in [Sequence.ts:161](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L161)*
 
 Returns an empty Sequence&lt;T&gt; that has the specified type argument.
 
@@ -497,7 +579,7 @@ ___
 
 ▸ **range**(`start`: number, `count`: number): *[Sequence](sequence.md)‹number›*
 
-*Defined in [Sequence.ts:227](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L227)*
+*Defined in [Sequence.ts:250](https://github.com/DreadLordMikey/jlinq/blob/3114c0a/src/Sequence.ts#L250)*
 
 Generates a sequence of integral numbers within a specified range.
 

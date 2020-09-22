@@ -273,6 +273,55 @@ export class Sequence<T> {
   }
   //#endregion
 
+  //#region single
+  /**
+   * Gets the single element from this sequence.
+   *
+   * @throws An exception is thrown if either the sequence is empty or the
+   * sequence contains more than one element.
+   * @type T
+   * @returns T The single element in this sequence.
+   */
+  single(): T;
+  /**
+   * Gets the single element from this sequence that satisfies the provided
+   * predicate condition.
+   *
+   * @param Predicate<T> predicate A function to test each element for a
+   * condition.
+   *
+   * @throws An exception is thrown if either the sequence is empty or if
+   * multiple elements satisfy the provided predicate condition.
+   *
+   * @type T
+   * @returns T The single element in this sequence that satisfies the
+   * provided predicate condition.
+   */
+  single(predicate: Predicate<T>): T;
+  single(predicate?: unknown): T {
+    if (this.data.length === 0) {
+      throw 'Invalid operation exception: sequence is empty.';
+    }
+
+    if (!predicate) {
+      if (this.data.length > 1) {
+        throw 'Invalid operation exception: sequence contains multiple elements.';
+      } else {
+        return this.data[0];
+      }
+    } else {
+      const items = this.data.filter((e, i) => (<Predicate<T>>predicate)(e, i));
+      if (items.length === 0) {
+        throw 'Invalid operation exception: no items match predicate condition.';
+      } else if (items.length > 1) {
+        throw 'Invalid operation exception: multiple items match predicate condition.';
+      } else {
+        return items[0];
+      }
+    }
+  }
+  //#endregion
+
   //#region skip
   /**
    * Bypasses a specified number of elements in a sequence and then returns the remaining elements.
