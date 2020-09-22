@@ -164,48 +164,54 @@ describe('elementAt() tests', () => {
 
 //#region elementAtOrDefault
 describe('elementAtOrDefault() tests', () => {
+  const DEFAULT_NUMBER = 0;
+  const DEFAULT_BOOLEAN = false;
+  const DEFAULT_STRING = null;
+  const DEFAULT_OBJECT = null;
   describe('numeric values', () => {
     const seq = Sequence.range(10, 10);
     it('returns default value when index is out of range', () => {
-      const item = seq.elementAtOrDefault(-1);
-      expect(item).toEqual(0);
+      const item = seq.elementAtOrDefault(DEFAULT_NUMBER, -1);
+      expect(item).toEqual(DEFAULT_NUMBER);
     });
     it('returns item when index is in range', () => {
-      const item = seq.elementAtOrDefault(1);
+      const item = seq.elementAtOrDefault(DEFAULT_NUMBER, 1);
       expect(item).toEqual(11);
     });
   });
   describe('string values', () => {
     const seq = from(['foo', 'bar', 'baz']);
     it('returns default value when index is out of range', () => {
-      const item = seq.elementAtOrDefault(-1);
+      const item = seq.elementAtOrDefault(DEFAULT_STRING, -1);
       expect(item).toBeNull;
     });
     it('returns item when index is in range', () => {
-      const item = seq.elementAtOrDefault(1);
+      const item = seq.elementAtOrDefault(DEFAULT_STRING, 1);
+      expect(item).not.toBeNull();
       expect(item).toEqual('bar');
     });
   });
   describe('boolean values', () => {
     const seq = from([false, true, true, false, true, false]);
     it('returns default value when index is out of range', () => {
-      const item = seq.elementAtOrDefault(-1);
-      expect(item).toEqual(false);
+      const item = seq.elementAtOrDefault(DEFAULT_BOOLEAN, -1);
+      expect(item).toEqual(DEFAULT_BOOLEAN);
     });
     it('returns item when index is in range', () => {
-      const item = seq.elementAtOrDefault(1);
+      const item = seq.elementAtOrDefault(DEFAULT_BOOLEAN, 1);
       expect(item).toEqual(true);
     });
   });
   describe('complex values', () => {
     const seq = from(data);
     it('returns default value when index is out of range', () => {
-      const item = seq.elementAtOrDefault(-1);
-      expect(item).toEqual(null);
+      const item = seq.elementAtOrDefault(DEFAULT_OBJECT, -1);
+      expect(item).toEqual(DEFAULT_OBJECT);
     });
     it('returns item when index is in range', () => {
-      const item = seq.elementAtOrDefault(1);
+      const item = seq.elementAtOrDefault(DEFAULT_OBJECT, 1);
       const firstItem = data[1];
+      expect(item).not.toBeNull();
       expect(item).toEqual(firstItem);
     });
   });
@@ -221,6 +227,75 @@ describe('empty() tests', () => {
   it('set contains no items', () => {
     const count = emptySet.count();
     expect(count).toEqual(0);
+  });
+});
+//#endregion
+
+//#region first
+describe('first() tests', () => {
+  it('throws if sequence is empty', () => {
+    expect(() => from([]).first()).toThrow();
+  });
+  it('returns first element in populated sequence when no predicate is provided', () => {
+    const received = from([1, 2, 3]).first();
+    expect(received).toEqual(1);
+  });
+  it('throws when no elements in sequence satisfy predicate condition', () => {
+    expect(() => from([1, 2, 3]).first((n) => n === 5)).toThrow();
+  });
+  it('returns first item that matches predicate condition', () => {
+    const received = from([17, 5, 50, 87, 2]).first((n) => n % 50 === 0);
+    expect(received).toEqual(50);
+  });
+});
+//#endregion
+
+//#region firstOrDefault
+describe('firstOrDefault() tests', () => {
+  describe('boolean values', () => {
+    it('returns default value when index is out of range', () => {
+      const item = new Sequence<boolean>([]).firstOrDefault(false);
+      expect(item).toBeFalsy();
+    });
+    it('returns item when index is in range', () => {
+      const item = new Sequence([true, false]).firstOrDefault(false);
+      expect(item).toBeTruthy();
+    });
+  });
+  describe('complex values', () => {
+    it('returns default when index is out of range', () => {
+      const item = new Sequence<dataRecord>([]).firstOrDefault(null);
+      expect(item).toBeNull();
+    });
+    it('returns item when index is in range', () => {
+      const seq = from(data);
+      const item = seq.firstOrDefault(null);
+      const first = seq.elementAt(0);
+      expect(item).not.toBeNull();
+      expect(item).toEqual(first);
+    });
+  });
+  describe('numeric values', () => {
+    it('returns default when index is out of range', () => {
+      const item = new Sequence<number>([]).firstOrDefault(0);
+      expect(item).toEqual(0);
+    });
+    it('returns value when index is in range', () => {
+      const item = new Sequence<number>([5, 24, -13]).firstOrDefault(0);
+      expect(item).toEqual(5);
+    });
+  });
+  describe('string values', () => {
+    it('returns default when index is out of range', () => {
+      const item = new Sequence<string>([]).firstOrDefault(null);
+      expect(item).toBeNull();
+    });
+    it('returns value when index is in range', () => {
+      const arr: string[] = ['foo', 'bar', 'baz'];
+      const item = new Sequence<string>(arr).firstOrDefault(null);
+      expect(item).not.toBeNull();
+      expect(item).toEqual('foo');
+    });
   });
 });
 //#endregion

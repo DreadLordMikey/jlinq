@@ -54,14 +54,27 @@ describe('count', () => {
   profile(() => sourceData.count((e) => e.isActive), 'with a predicate');
 });
 
+describe('first', () => {
+  profile(() => sourceData.first(), 'with no predicate');
+  profile(() => sourceData.first((d) => d.isActive), 'with predicate');
+});
+
+describe('firstOrDefault', () => {
+  profile(() => sourceData.firstOrDefault(null), 'with no predicate');
+  profile(
+    () => sourceData.firstOrDefault(null, (d) => d.isActive),
+    'with predicate',
+  );
+});
+
 describe('elementAt', () =>
   profile(() => {
     sourceData.elementAt(0);
   }));
 
 describe('elementAtOrDefault', () => {
-  profile(() => sourceData.elementAtOrDefault(-1), 'with invalid index');
-  profile(() => sourceData.elementAtOrDefault(0), 'with valid index');
+  profile(() => sourceData.elementAtOrDefault(null, -1), 'with invalid index');
+  profile(() => sourceData.elementAtOrDefault(null, 0), 'with valid index');
 });
 
 describe('empty', () => {
