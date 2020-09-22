@@ -24,7 +24,7 @@
   "scripts": {
     "test": "jest",
     "start": "npx ts-node src/main.ts",
-    "doc": "npx typedoc --plugin typedoc-plugin-markdown --excludePrivate --stripInternal --mode file --out docs"
+    "doc": "npx typedoc --plugin typedoc-plugin-markdown --excludePrivate --stripInternal --mode file --out .docs"
   },
   "jest": {
     "verbose": true

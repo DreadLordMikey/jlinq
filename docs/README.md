@@ -6,6 +6,9 @@
 
 JLINQ is a personal project attempting to implement Microsoft's [Language Integrated Query (LINQ)](https://docs.microsoft.com/en-us/dotnet/standard/linq/) in [TypeScript](https://www.typescriptlang.org/docs/).
 
+* [Code of Conduct](CODE_OF_CONDUCT.md)
+* [License](LICENSE)
+
 ## Running the Tests
 
 Unit tests for JLINQ are created using [jest](https://jestjs.io/). To run them, open a terminal or command prompt and run the following
@@ -36,6 +39,8 @@ However, the following are worth noting, in no particular order:
 The methods implemented in the Sequence&lt;T&gt; class are known as the _Standard Query Operators_. The documentation for their expected behavior was provided by Microsoft in May, 2006. The document containing these specifications is located in the docs folder of this repository, and serves as the primary requirements document for this project.
 
 The initial implementation does not provide support for asynchronous operations; future releases may do so.
+
+[JLinq and -OrDefault Methods](xxxOrDefault.md)
 
 ## API Reference
 
