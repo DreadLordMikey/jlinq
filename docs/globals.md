@@ -8,12 +8,9 @@
 
 * [Sequence](classes/sequence.md)
 
-### Interfaces
-
-* [ISequence](interfaces/isequence.md)
-
 ### Type aliases
 
+* [Action](globals.md#action)
 * [Predicate](globals.md#predicate)
 * [Selector](globals.md#selector)
 * [dataRecord](globals.md#datarecord)
@@ -24,11 +21,23 @@
 
 ## Type aliases
 
+###  Action
+
+Ƭ **Action**: *function*
+
+*Defined in [interfaces.ts:3](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/interfaces.ts#L3)*
+
+#### Type declaration:
+
+▸ (): *void*
+
+___
+
 ###  Predicate
 
 Ƭ **Predicate**: *function*
 
-*Defined in [interfaces.ts:12](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L12)*
+*Defined in [interfaces.ts:14](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/interfaces.ts#L14)*
 
 A function used to test whether or not an element in a sequence satisfies a
 condition.
@@ -57,7 +66,7 @@ ___
 
 Ƭ **Selector**: *function*
 
-*Defined in [interfaces.ts:23](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/interfaces.ts#L23)*
+*Defined in [interfaces.ts:25](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/interfaces.ts#L25)*
 
 A function used to project an element in a sequence from one form into another.
 
@@ -84,7 +93,7 @@ ___
 
 Ƭ **dataRecord**: *object*
 
-*Defined in [data.ts:7](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/data.ts#L7)*
+*Defined in [data.ts:7](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/data.ts#L7)*
 
 **`interal`** 
 
@@ -140,7 +149,7 @@ ___
 
 ▸ **from**‹**T**›(`arr`: Array‹T›): *[Sequence](classes/sequence.md)‹T›*
 
-*Defined in [Sequence.ts:10](https://github.com/DreadLordMikey/jlinq/blob/ce1e563/src/Sequence.ts#L10)*
+*Defined in [Sequence.ts:10](https://github.com/DreadLordMikey/jlinq/blob/3c7b510/src/Sequence.ts#L10)*
 
 Gets a Sequence&lt;T&gt; from an array.
 
