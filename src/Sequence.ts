@@ -135,34 +135,16 @@ export class Sequence<T> {
   /**
    * Returns the element at a specified index in a sequence or a default value
    * if the index is out of range.
+   * @param {T} defaultValue The value to return if there are no elements in
+   * the sequence or if the specified element does not exist.
    * @param {number} index The zero-based index of the element to retrieve.
-   * @returns {T} default {T} if the index is outside the bounds of the source
+   * @returns defaultValue if the index is outside the bounds of the source
    * sequence; otherwise, the element at the specified position in the source
    * sequence.
    */
-  elementAtOrDefault(index: number): T {
+  elementAtOrDefault(defaultValue: T, index: number): T {
     if (index < 0 || index >= this.data.length) {
-      // This is the tricky part. Generics are not available at runtime. So how
-      // do we get a default value for the provided generic type?
-      //
-      // Since the index is out of range, we can assume there are elements in
-      // the array. We retrieve the first one and inspect its type. From that,
-      // we can infer the types of all elements in the array, and return a
-      // suitable default value.
-      //
-      // For all reference types, the default value is null. For numerics, it is
-      // 0; for booleans it is false.
-      const t = typeof this.data[0];
-      switch (t) {
-        case 'bigint':
-          return <T>(<unknown>0);
-        case 'boolean':
-          return <T>(<unknown>false);
-        case 'number':
-          return <T>(<unknown>0);
-        default:
-          return <T>(<unknown>null);
-      }
+      return defaultValue;
     }
     return this.data[index];
   }
@@ -212,6 +194,47 @@ export class Sequence<T> {
         throw 'Invalid operation: no elements satisfy predicate condition.';
       }
       return this.data[index];
+    }
+  }
+  //#endregion
+
+  //#region firstOrDefault
+  /**
+   * Gets the first element in the sequence, or a default value if there are no
+   * elements in the sequence.
+   * @param {T} defaultValue The value to return if there are no elements in the
+   * sequence.
+   * @returns {T} The first element in the sequence if one exists; otherwise,
+   * `defaultValue` is returned.
+   */
+  firstOrDefault(defaultValue: T): T;
+  /**
+   * Gets the first element in the sequence that satisfies a condition, or a
+   * default value if no elements satisfy the condition.
+   * @param {T} defaultValue The value to return if either there are no elements
+   * in the sequence or there are no elements in the sequence that satisfy the
+   * predicate condition.
+   * @param {Predicate} predicate A function to test each element for a condition.
+   * @returns The first element in the sequence that satisfies the predicate
+   * condition; otherwise, `defaultValue` is returned.
+   */
+  firstOrDefault(defaultValue: T, predicate: Predicate<T>): T;
+  firstOrDefault(defaultValue: T, predicate?: unknown): T {
+    if (this.data.length === 0) {
+      return defaultValue;
+    }
+
+    if (!predicate) {
+      return this.data[0];
+    } else {
+      const index = this.data.findIndex((e, i) =>
+        (<Predicate<T>>predicate)(e, i),
+      );
+      if (index === -1) {
+        return defaultValue;
+      } else {
+        return this.data[index];
+      }
     }
   }
   //#endregion
