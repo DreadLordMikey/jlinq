@@ -322,6 +322,56 @@ export class Sequence<T> {
   }
   //#endregion
 
+  //#region singleOrDefault
+  /**
+   * Gets the sole element from this sequence, or a default value if no such element
+   * exists.
+   *
+   * @param T defaultValue The value to return if the sequence is empty.
+   * @throws An exception is thrown if the sequence contains multiple items.
+   * @returns The single element from this sequence. If the sequence is empty,
+   * `defaultValue` is returned.
+   */
+  singleOrDefault(defaultValue: T): T;
+  /**
+   * Gets the sole element from this sequence that satisfies the provided predicate
+   * condition, or a default value if no such element exists.
+   *
+   * @param T defaultValue The value to return if either the sequence is empty or if
+   * no elements in the sequence satisfy the predicate condition.
+   * @param Predicate predicate A function test each element in the sequence for a
+   * condition.
+   * @throws An exception is thrown if multiple elements in the sequence satisfy the
+   * predicate condition.
+   * @returns The sole element in the sequence that satisfies the predicate condition.
+   * If no elements satisfy the predicate condition, `defaultValue` is returned.
+   */
+  singleOrDefault(defaultValue: T, predicate: Predicate<T>): T;
+  singleOrDefault(defaultValue: T, predicate?: unknown): T {
+    if (!predicate) {
+      if (this.data.length === 1) {
+        return this.data[0];
+      } else if (this.data.length === 0) {
+        return defaultValue;
+      } else {
+        throw 'Invalid operation exception: sequence is empty.';
+      }
+    } else {
+      const matches = this.data.filter((e, i) =>
+        (<Predicate<T>>predicate)(e, i),
+      );
+
+      if (matches.length === 1) {
+        return matches[0];
+      } else if (matches.length === 0) {
+        return defaultValue;
+      } else {
+        throw 'Invalid oepration exception: multiple elements in sequence satisfy predicate condition.';
+      }
+    }
+  }
+  //#endregion
+
   //#region skip
   /**
    * Bypasses a specified number of elements in a sequence and then returns the remaining elements.

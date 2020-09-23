@@ -404,6 +404,41 @@ describe('single', () => {
 });
 //#endregion
 
+//#region singleOrDefault
+describe('singleOrDefault', () => {
+  describe('when no predicate is provided', () => {
+    it('returns element if sequence contains single element', () => {
+      expect(
+        new Sequence<number>([1]).singleOrDefault(0),
+      ).toEqual(1);
+    });
+    it('throws if sequence contains multiple elements', () => {
+      expect(() => from([1, 2, 3]).singleOrDefault(0)).toThrow();
+    });
+    it('returns default value if sequence is empty', () => {
+      expect(new Sequence<number>([]).singleOrDefault(0)).toEqual(0);
+    });
+  });
+  describe('when a predicate is provided', () => {
+    it('returns single element if only one element satisfies predicate condition', () => {
+      expect(
+        new Sequence<number>([1, 2, 3]).singleOrDefault(0, (e) => e === 2),
+      ).toEqual(2);
+    });
+    it('throws if multiple elements satisfy predicate condition', () => {
+      expect(() => {
+        new Sequence<number>([2, 4, 6]).singleOrDefault(0, (e) => e % 2 === 0);
+      }).toThrow();
+    });
+    it('returns default value if no elements satisfy predicate condition', () => {
+      expect(
+        new Sequence<number>([1, 2, 3]).singleOrDefault(0, (e) => e === 5),
+      ).toEqual(0);
+    });
+  });
+});
+//#endregion
+
 //#region skip
 describe('skip() tests', () => {
   it('returns all items if count < array size', () => {
