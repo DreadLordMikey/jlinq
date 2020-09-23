@@ -327,6 +327,40 @@ describe('last', () => {
 });
 //#endregion
 
+//#region lastOrDefault
+describe('lastOrDefault', () => {
+  describe('without predicate', () => {
+    it('returns default value when sequence is empty', () => {
+      expect(Sequence.empty<number>().lastOrDefault(0)).toEqual(0);
+    });
+    it('returns last element when sequence is not empty', () => {
+      expect(Sequence.range(1, 10).lastOrDefault(0)).toEqual(10);
+    });
+  });
+  describe('with predicate', () => {
+    it('returns default value when sequence is empty', () => {
+      expect(Sequence.empty<number>().lastOrDefault(0, (e) => e === 5)).toEqual(
+        0,
+      );
+    });
+    it('returns default value if no elements satisfy predicate condition', () => {
+      expect(
+        from(['foo', 'bar', 'baz']).lastOrDefault(
+          'Not Found',
+          (e) => e === 'TODO',
+        ),
+      ).toEqual('Not Found');
+    });
+    it('returns last element that satisfies predicate condition', () => {
+      const seq = from(data);
+      const item = seq.lastOrDefault(null, (e) => e.isActive);
+      expect(item).not.toBeNull();
+      expect(item.guid).toEqual('8d92cdac-3f58-4be9-ac72-3645764ec6a7');
+    });
+  });
+});
+//#endregion
+
 //#region select
 describe('select() tests', () => {
   it('returns non-empty set', () => {

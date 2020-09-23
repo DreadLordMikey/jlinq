@@ -277,6 +277,35 @@ export class Sequence<T> {
   }
   //#endregion
 
+  //#region lastOrDefault
+  /**
+   * Gets the last element from a sequence, or a default value if the sequence
+   * contains no elements.
+   * @param {T} defaultValue The value to return if the sequence is empty.
+   * @returns {T} The last element in the sequence, or `defaultValue` if the sequence contains no elements.
+   */
+  lastOrDefault(defaultValue: T): T;
+  /** */
+  lastOrDefault(defaultValue: T, predicate: Predicate<T>): T;
+  lastOrDefault(defaultValue: T, predicate?: unknown): T {
+    if (this.data.length === 0) {
+      return defaultValue;
+    }
+
+    if (!predicate) {
+      return this.data[this.data.length - 1];
+    } else {
+      for (let i = this.data.length - 1; i >= 0; i--) {
+        const e = this.data[i];
+        if ((<Predicate<T>>predicate)(e, i)) {
+          return e;
+        }
+      }
+      return defaultValue;
+    }
+  }
+  //#endregion
+
   //#region range
   /**
    * Generates a sequence of integral numbers within a specified range.
