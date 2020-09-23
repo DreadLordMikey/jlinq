@@ -113,6 +113,32 @@ describe('single', () => {
   );
 });
 
+describe('singleOrDefault', () => {
+  const empty = new Sequence<number>([]);
+  const single = new Sequence<number>([1]);
+  const multiple = Sequence.range(1, 100);
+
+  profile(() => empty.singleOrDefault(0), 'empty, no predicate');
+  profile(() => single.singleOrDefault(0), 'single, no predicate');
+  profile(() => {
+    try {
+      multiple.singleOrDefault(0);
+    } catch (e) {
+      // Consume
+    }
+  }, 'multiple, no predicate');
+
+  profile(() => empty.singleOrDefault(0, (e) => e === 5), 'empty, predicate');
+  profile(() => single.singleOrDefault(0, (e) => e === 5), 'single, predicate');
+  profile(() => {
+    try {
+      multiple.singleOrDefault(0, (e) => e % 2 == 0);
+    } catch (e) {
+      // Consume
+    }
+  }, 'multiple, predicate');
+});
+
 describe('skipWhile', () => {
   const seq = Sequence.range(0, 1000);
   profile(() => {
