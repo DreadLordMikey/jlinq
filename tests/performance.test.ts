@@ -83,7 +83,41 @@ describe('empty', () => {
 
 describe('last', () => {
   profile(() => Sequence.range(0, 100000).last(), '100,000, no predicate');
-  profile(() => Sequence.range(0, 100000).last(e => e % 750 === 0), '100,000, with predicate');
+  profile(
+    () => Sequence.range(0, 100000).last((e) => e % 750 === 0),
+    '100,000, with predicate',
+  );
+});
+
+describe('lastOrDefault', () => {
+  describe('without predicate', () => {
+    profile(
+      () => Sequence.empty<number>().lastOrDefault(0),
+      'returns default value when sequence is empty',
+    );
+    profile(
+      () => Sequence.range(1, 10).lastOrDefault(0),
+      'returns last element when sequence is not empty',
+    );
+  });
+  describe('with predicate', () => {
+    profile(
+      () => Sequence.empty<number>().lastOrDefault(0, (e) => e === 5),
+      'returns default value when sequence is empty',
+    );
+    profile(
+      () =>
+        from(['foo', 'bar', 'baz']).lastOrDefault(
+          'Not Found',
+          (e) => e === 'TODO',
+        ),
+      'returns default value if no elements satisfy predicate condition',
+    );
+    profile(
+      () => from(data).lastOrDefault(null, (e) => e.isActive),
+      'returns last element that satisfies predicate condition',
+    );
+  });
 });
 
 describe('select', () =>
