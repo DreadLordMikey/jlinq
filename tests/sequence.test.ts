@@ -300,6 +300,33 @@ describe('firstOrDefault() tests', () => {
 });
 //#endregion
 
+//#region last
+describe('last', () => {
+  describe('without predicate', () => {
+    it('throws if sequence is empty', () => {
+      expect(() => expect(Sequence.empty<number>().last())).toThrow();
+    });
+    it('returns last element if sequence is not empty', () => {
+      expect(Sequence.range(0, 10).last()).toEqual(9);
+    });
+  });
+  describe('with predicate', () => {
+    it('throws if sequence is empty', () => {
+      expect(() =>
+        expect(Sequence.empty<number>().last((e) => e === 5)),
+      ).toThrow();
+    });
+    it('throws if no element in sequence satisfies predicate condition', () => {
+      expect(() => Sequence.range(0, 10).last((e) => e === 20)).toThrow();
+    });
+    it('returns last element in sequence that satisfies predicate condition', () => {
+      const seq = from([1, 3, 4, 2, 7, 5, 9, 12, 15, 8, 9, 21, 7]);
+      expect(seq.last((e) => e % 5 === 0)).toEqual(15);
+    });
+  });
+});
+//#endregion
+
 //#region select
 describe('select() tests', () => {
   it('returns non-empty set', () => {
