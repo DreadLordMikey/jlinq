@@ -155,7 +155,7 @@ export class Sequence<T> {
    * Returns an empty Sequence&lt;T&gt; that has the specified type argument.
    * @param {TReturn} TReturn The type to assign to the type parameter of the
    * returned generic Sequence&lt;T&gt;
-   * @returns {Sequence<T>} An empty Sequence&lt;&gt; whose type argument is {TReturn}.
+   * @returns An empty Sequence whose type argument is `TReturn`.
    * @template TReturn
    */
   static empty<TReturn>(): Sequence<TReturn> {
@@ -235,6 +235,44 @@ export class Sequence<T> {
       } else {
         return this.data[index];
       }
+    }
+  }
+  //#endregion
+
+  //#region last
+  /**
+   * Gets the last element from a sequence.
+   * @throws An exception is thrown if the sequence is empty.
+   * @returns The last element in the sequence.
+   */
+  last(): T;
+  /**
+   * Gets the last element in a sequence that satisfies the provided predicate
+   * condition.
+   * @param {Predicate} predicate A function to test each element for a
+   * condition.
+   * @throws An exception is thrown if:
+   * - The sequence is empty OR
+   * - No elements in the sequence satisfy the predicate condition.
+   * @returns {T} The last element in the sequence that satisfies the predicate
+   * condition.
+   */
+  last(predicate: Predicate<T>): T;
+  last(predicate?: unknown): T {
+    if (this.data.length === 0) {
+      throw 'Invalid operation exception: sequence is empty.';
+    }
+
+    if (!predicate) {
+      return this.data[this.data.length - 1];
+    } else {
+      for (let i = this.data.length - 1; i >= 0; i--) {
+        const e = this.data[i];
+        if ((<Predicate<T>>predicate)(e, i)) {
+          return e;
+        }
+      }
+      throw 'Invalid operation exception: no elements satisfy predicate condition.';
     }
   }
   //#endregion

@@ -81,6 +81,11 @@ describe('empty', () => {
   profile(() => Sequence.empty<number>());
 });
 
+describe('last', () => {
+  profile(() => Sequence.range(0, 100000).last(), '100,000, no predicate');
+  profile(() => Sequence.range(0, 100000).last(e => e % 750 === 0), '100,000, with predicate');
+});
+
 describe('select', () =>
   profile(() =>
     sourceData.select((d) => ({
